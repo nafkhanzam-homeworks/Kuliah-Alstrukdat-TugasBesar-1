@@ -3,10 +3,11 @@
 
 #include "boolean.h"
 
-typedef struct {
+typedef struct _List *List;
+typedef struct _List {
     int info;
     List* next;
-} List;
+} __List;
 
 List new_List();
 boolean List_isEmpty(List* p);

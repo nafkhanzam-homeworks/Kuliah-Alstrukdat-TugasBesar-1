@@ -1,3 +1,6 @@
+#if !defined(__MAIN__)
+#define __MAIN__
+
 #include "game.h"
 
 int main() {
@@ -7,3 +10,5 @@ int main() {
     }
     return 0;
 }
+
+#endif // __MAIN__

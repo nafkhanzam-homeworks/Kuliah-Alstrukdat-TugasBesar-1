@@ -11,7 +11,7 @@ typedef struct {
     Matrix map;
     ArrayOfBuilding buildingList;
     Graph buildingGraph;
-    Player players[3];
+    Player players[2];
     int turn;
     boolean isExiting;
 } Game;
