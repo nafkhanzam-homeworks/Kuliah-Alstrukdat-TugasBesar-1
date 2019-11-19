@@ -5,10 +5,10 @@
 
 typedef struct {
     char type;
-    Point pos;
-    int armyCount, level, shieldCount; // pemilik
+    Point position;
+    int armyCount, level, shieldCount, owner;
 } Building;
 
 Building new_Building(char c, int x, int y);
 
-#endif // __building_h__
+#endif // __building_h

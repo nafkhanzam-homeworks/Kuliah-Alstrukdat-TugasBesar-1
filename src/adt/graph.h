@@ -8,6 +8,10 @@ typedef struct {
 	List* arr;
 } Graph;
 
+#define Graph_length(P) (P)->length
+#define Graph_arr(P) (P)->arr
+#define Graph_getAdjencyList(P, i) (P)->arr[i]
+
 Graph new_Graph(int length);
 void Graph_add1(Graph* p, int i, int j);
 void Graph_add2(Graph* p, int i, int j);

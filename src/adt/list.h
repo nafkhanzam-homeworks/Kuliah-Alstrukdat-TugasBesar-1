@@ -6,8 +6,11 @@
 typedef struct _List *List;
 typedef struct _List {
     int info;
-    List* next;
+    List next;
 } __List;
+
+#define List_getInfo(P) (*P)->info
+#define List_getNext(P) (*P)->next
 
 List new_List();
 boolean List_isEmpty(List* p);

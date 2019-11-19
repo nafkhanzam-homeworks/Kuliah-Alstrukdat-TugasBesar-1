@@ -6,8 +6,12 @@ typedef struct {
     int r, c;
 } Matrix;
 
+// Selektor Matrix(M)
+#define Value(M, i,j) (M).arr[i][j]
+#define Arr(M) (M).arr
+#define Baris(M) (M).r
+#define Kolom(M) (M).c
+
 Matrix new_Matrix(int r, int c);
-void Matrix_set(Matrix* p, int r, int c, int v);
-int Matrix_get(Matrix* p, int r, int c);
 
 #endif // __matrix_h__
