@@ -21,5 +21,7 @@
 #define attackUp(P) (P)->attackUp
 #define criticalHit(P) (P)->criticalHit
 #define shieldTurn(P) (P)->shieldTurn
+#define config(P) (P)->config
+#define command(P) (P)->command
 
 #endif // __selector_h__

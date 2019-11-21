@@ -13,6 +13,7 @@ typedef struct {
 
 Reader new_Reader();
 Reader new_FileReader(char* fileName);
+void Reader_startFile(Reader* p, char* fileName);
 void Reader_ignoreBlank(Reader* p);
 void Reader_adv(Reader* p);
 char* Reader_readString(Reader* p);

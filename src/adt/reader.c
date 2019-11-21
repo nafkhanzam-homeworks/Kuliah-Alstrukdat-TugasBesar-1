@@ -13,9 +13,13 @@ Reader new_Reader() {
 
 Reader new_FileReader(char* fileName) {
     Reader res;
-    stream(&res) = fopen(fileName, "r");
-    readChar(&res) = 0;
+    Reader_startFile(&res, fileName);
     return res;
+}
+
+void Reader_startFile(Reader* p, char* fileName) {
+    stream(p) = fopen(fileName, "r");
+    readChar(p) = 0;
 }
 
 void Reader_ignoreBlank(Reader* p) {
