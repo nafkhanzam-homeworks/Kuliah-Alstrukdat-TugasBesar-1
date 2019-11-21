@@ -1,8 +1,9 @@
 #if !defined(__queue_h__)
 #define __queue_h__
 
-#include "boolean.h"
+#include "selector_adt.h"
 
+#include "boolean.h"
 #include "list.h"
 
 typedef struct {

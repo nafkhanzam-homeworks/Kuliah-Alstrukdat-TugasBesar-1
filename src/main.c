@@ -5,7 +5,7 @@
 
 int main() {
     Game game = new_Game();
-    while (!game.isExiting) {
+    while (!isExiting(&game)) {
         Game_playTurn(&game);
     }
     return 0;

@@ -1,6 +1,8 @@
 #if !defined(__building_h__)
 #define __building_h__
 
+#include "selector.h"
+
 #include "adt/point.h"
 #include "adt/boolean.h"
 

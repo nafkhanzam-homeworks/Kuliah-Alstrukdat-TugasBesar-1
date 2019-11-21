@@ -1,6 +1,9 @@
 #if !defined(__act_h__)
 #define __act_h__
 
+#include "selector.h"
+#include "adt/selector_adt.h"
+
 #include "adt/boolean.h"
 #include "adt/list.h"
 #include "game.h"

@@ -4,22 +4,22 @@
 
 Queue new_Queue() {
     Queue res;
-    res.list = NULL;
+    list(&res) = NULL;
     return res;
 }
 
 boolean Queue_isEmpty(Queue* p) {
-    return List_isEmpty(&p->list);
+    return List_isEmpty(&list(p));
 }
 
 int Queue_getLength(Queue* p) {
-    return List_getLength(&p->list);
+    return List_getLength(&list(p));
 }
 
 void Queue_add(Queue* p, int v) {
-    List_addLast(&p->list, v);
+    List_addLast(&list(p), v);
 }
 
 int Queue_remove(Queue* p) {
-    return List_removeFirst(&p->list);
+    return List_removeFirst(&list(p));
 }

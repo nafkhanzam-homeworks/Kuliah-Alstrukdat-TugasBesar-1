@@ -4,13 +4,13 @@
 
 Graph new_Graph(int length) {
     Graph res;
-    res.length = length;
-    res.arr = new_ArrayOfList(length);
+    length(&res) = length;
+    array(&res) = new_ArrayOfList(length);
     return res;
 }
 
 void Graph_add1(Graph* p, int i, int j) {
-    List_addLast(&p->arr.tab[i], j);
+    List_addLast(&tabi(&array(p), i), j);
 }
 
 void Graph_add2(Graph* p, int i, int j) {

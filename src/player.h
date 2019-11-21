@@ -1,6 +1,8 @@
 #if !defined(__player_h__)
 #define __player_h__
 
+#include "selector.h"
+
 #include "adt/stack.h"
 
 typedef struct {

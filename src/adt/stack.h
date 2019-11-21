@@ -1,6 +1,8 @@
 #if !defined(__stack_h__)
 #define __stack_h__
 
+#include "selector_adt.h"
+
 #include "boolean.h"
 #include "list.h"
 #include "../act.h"

@@ -4,26 +4,26 @@
 
 Ops new_Ops(void* target, int value) {
     Ops res;
-    res.target = target;
-    res.value = value;
-    res.type = false;
+    target(&res) = target;
+    value(&res) = value;
+    type(&res) = false;
     return res;
 }
 
 Ops new_OpsQueue(void* target, int value, boolean add) {
     Ops res = new_Ops(target, value);
-    res.type = add ? 1 : -1;
+    type(&res) = add ? 1 : -1;
     return res;
 }
 
 Act new_Act() {
     Act res;
-    res.list = NULL;
+    list(&res) = NULL;
     return res;
 }
 
 void Act_addOps(Act* p, Ops v) {
-    ListOfOps_addFirst(&p->list, v);
+    ListOfOps_addFirst(&list(p), v);
 }
 
 void Act_attack(Game* p, int attackerBuildingId, int defenceBuildingId, int val) {

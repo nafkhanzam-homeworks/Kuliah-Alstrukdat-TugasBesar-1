@@ -6,15 +6,15 @@
 
 Reader new_Reader() {
     Reader res;
-    res.in = stdin;
-    res.cin = 0;
+    stream(&res) = stdin;
+    readChar(&res) = 0;
     return res;
 }
 
 Reader new_FileReader(char* fileName) {
     Reader res;
-    res.in = fopen(fileName, "r");
-    res.cin = 0;
+    stream(&res) = fopen(fileName, "r");
+    readChar(&res) = 0;
     return res;
 }
 
@@ -25,7 +25,7 @@ void Reader_ignoreBlank(Reader* p) {
 }
 
 void Reader_adv(Reader* p) {
-    p->cin = fscanf(p->in, "%c");
+    readChar(p) = fscanf(stream(p), "%c");
 }
 
 char* Reader_readString(Reader* p) {
@@ -33,7 +33,7 @@ char* Reader_readString(Reader* p) {
     char* res = (char*) malloc(MAX_LENGTH*sizeof(char));
     int i = 0;
     while (!Reader_isNonReadableCharacter(p)) {
-        res[i++] = p->cin;
+        res[i++] = readChar(p);
         Reader_adv(p);
     }
     res[i] = 0;
@@ -43,15 +43,15 @@ char* Reader_readString(Reader* p) {
 int Reader_readInt(Reader* p) {
     Reader_ignoreBlank(p);
     int res = 0;
-    while (p->cin >= '0' && p->cin <= '9') {
-        res = res*10 + p->cin - '0';
+    while (readChar(p) >= '0' && readChar(p) <= '9') {
+        res = res*10 + readChar(p) - '0';
         Reader_adv(p);
     }
     return res;
 }
 
 boolean Reader_isNonReadableCharacter(Reader* p) {
-    return!('0' <= p->cin && p->cin <= '9' ||
-            'a' <= p->cin && p->cin <= 'z' ||
-            'A' <= p->cin && p->cin <= 'Z');
+    return!('0' <= readChar(p) && readChar(p) <= '9' ||
+            'a' <= readChar(p) && readChar(p) <= 'z' ||
+            'A' <= readChar(p) && readChar(p) <= 'Z');
 }

@@ -1,6 +1,8 @@
 #if !defined(__list_h__)
 #define __list_h__
 
+#include "selector_adt.h"
+
 #include "boolean.h"
 #include "../act.h"
 

@@ -1,10 +1,12 @@
 #if !defined(__matrix_h__)
 #define __matrix_h__
 
+#include "selector_adt.h"
+
 #include "array.h"
 
 typedef struct {
-    Array arr;
+    Array array;
     int row, col;
 } Matrix;
 

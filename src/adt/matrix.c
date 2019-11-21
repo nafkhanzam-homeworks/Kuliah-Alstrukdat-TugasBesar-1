@@ -4,8 +4,8 @@
 
 Matrix new_Matrix(int r, int c) {
     Matrix res;
-    res.row = r;
-    res.col = c;
-    res.arr = new_Array(r*c+1);
+    row(&res) = r;
+    col(&res) = c;
+    array(&res) = new_Array(r*c+1);
     return res;
 }

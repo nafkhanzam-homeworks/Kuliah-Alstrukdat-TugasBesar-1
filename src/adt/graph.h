@@ -1,11 +1,13 @@
 #if !defined(__graph_h__)
 #define __graph_h__
 
+#include "selector_adt.h"
+
 #include "array.h"
 
 typedef struct {
 	int length;
-	ArrayOfList arr;
+	ArrayOfList array;
 } Graph;
 
 Graph new_Graph(int length);

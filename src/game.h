@@ -1,6 +1,8 @@
 #if !defined(__game_h__)
 #define __game_h__
 
+#include "selector.h"
+
 #include "adt/matrix.h"
 #include "adt/array.h"
 #include "adt/graph.h"
@@ -12,7 +14,7 @@ typedef struct {
     Matrix map;
     ArrayOfBuilding buildingList;
     Graph buildingGraph;
-    Player players[2];
+    Player players[3];
     int turn;
     boolean isExiting;
 } Game;

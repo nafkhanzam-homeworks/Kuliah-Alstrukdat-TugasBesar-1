@@ -2,7 +2,7 @@
 
 Building new_Building(char c, int x, int y) {
     Building res;
-    res.armyCount = 0;
+    armyCount(&res) = 0;
 }
 
 boolean Building_levelUp(Building* p) {

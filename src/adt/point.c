@@ -2,7 +2,7 @@
 
 Point new_Point(int x, int y) {
     Point res;
-    res.x = x;
-    res.y = y;
+    x(&res) = x;
+    y(&res) = y;
     return res;
 }

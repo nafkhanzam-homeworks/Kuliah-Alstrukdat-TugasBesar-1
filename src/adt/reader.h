@@ -1,12 +1,14 @@
 #if !defined(__reader_h__)
 #define __reader_h__
 
+#include "selector_adt.h"
+
 #include <stdio.h>
 #include "boolean.h"
 
 typedef struct {
-    FILE* in;
-    char cin;
+    FILE* stream;
+    char readChar;
 } Reader;
 
 Reader new_Reader();
