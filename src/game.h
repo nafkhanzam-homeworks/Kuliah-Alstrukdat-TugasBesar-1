@@ -8,6 +8,7 @@
 #include "player.h"
 
 typedef struct {
+    StackOfAct actStack;
     Matrix map;
     ArrayOfBuilding buildingList;
     Graph buildingGraph;
@@ -17,6 +18,7 @@ typedef struct {
 } Game;
 
 Game new_Game();
-void Game_play(Game* p);
+void Game_playTurn(Game* p);
+void Game_printMap(Game* p);
 
 #endif // __game_h__

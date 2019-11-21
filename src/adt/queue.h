@@ -3,26 +3,17 @@
 
 #include "boolean.h"
 
+#include "list.h"
+
 typedef struct {
-    int* arr;
-    int max, head, tail;
+    List list;
 } Queue;
 
-#define ArrQueue(Q) (Q).arr
-#define Max(Q) (Q).max
-#define Head(Q) (Q).head
-#define Tail(Q) (Q).tail
-#define InfoHead(Q) (Q).arr[(Q).head]
-#define InfoTail(Q) (Q).arr[(Q).tail]
-
-
-void NewQueue (Queue * Q, int max);
-boolean IsEmpty (Queue Q);
-boolean Queue_isEmpty(Queue* Q);
-int Queue_getLength(Queue Q);
+Queue new_Queue();
+boolean Queue_isEmpty(Queue* p);
+int Queue_getLength(Queue* p);
 void Queue_add(Queue* p, int v);
 int Queue_remove(Queue* p);
-
 
 #endif // __queue_h__
 

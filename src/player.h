@@ -4,12 +4,12 @@
 #include "adt/stack.h"
 
 typedef struct {
-    StackOfAct actStack;
     boolean extraTurn, attackUp, criticalHit;
     int shieldTurn;
 } Player;
 
 Player new_Player();
-Player Player_getEnemyPlayer(Player* p, Game* gp);
+Player Player_getCurrentPlayer(Game* p);
+Player Player_getEnemyPlayer(Game* p);
 
 #endif // __player_h__

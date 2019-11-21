@@ -6,7 +6,7 @@
 int main() {
     Game game = new_Game();
     while (!game.isExiting) {
-        Game_play(&game);
+        Game_playTurn(&game);
     }
     return 0;
 }

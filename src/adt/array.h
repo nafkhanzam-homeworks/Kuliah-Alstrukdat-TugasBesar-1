@@ -2,27 +2,31 @@
 #define __array_h__
 
 #include "../building.h"
+#include "list.h"
 
 typedef struct {
     int length;
-    int *arr;
+    int *tab;
 } Array;
 
-#define Length(B) (B)->length
-#define Arr(B) (B)->arr
-#define Get(B, i) (B)->arr[i]
+#define Array_length(P) (P)->length
+#define Array_tab(P) (P)->tab
+#define Array_get(P, i) (P)->tab[i]
 
-
-Array new_Array(int len);
-int Array_getLength(Array* p);
+Array new_Array(int length);
 
 typedef struct {
     int length;
-    Building* arr;
+    List *tab;
+} ArrayOfList;
+
+ArrayOfList new_ArrayOfList(int length);
+
+typedef struct {
+    int length;
+    Building* tab;
 } ArrayOfBuilding;
 
 ArrayOfBuilding new_ArrayOfBuilding(int length);
-
-int ArrayOfBuilding_getLength(ArrayOfBuilding* p);
 
 #endif // __array_h__

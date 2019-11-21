@@ -6,10 +6,13 @@
 
 #include "test.h"
 #include "array_test.h"
+#include "graph_test.h"
 
 void doTheTests() {
     printf("Array Tests:\n");
     ArrayTest_do();
+    printf("Graph Tests:\n");
+    GraphTest_do();
 }
 
 void main() {

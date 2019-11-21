@@ -1,16 +1,12 @@
 #if !defined(__matrix_h__)
 #define __matrix_h__
 
-typedef struct {
-    int* arr;
-    int r, c;
-} Matrix;
+#include "array.h"
 
-// Selektor Matrix(M)
-#define Value(M, i,j) (M).arr[i][j]
-#define Arr(M) (M).arr
-#define Baris(M) (M).r
-#define Kolom(M) (M).c
+typedef struct {
+    Array arr;
+    int row, col;
+} Matrix;
 
 Matrix new_Matrix(int r, int c);
 

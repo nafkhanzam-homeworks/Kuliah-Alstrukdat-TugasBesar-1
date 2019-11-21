@@ -4,14 +4,21 @@
 
 Array new_Array(int length) {
     Array res;
-    Length(&res) = length;
-    Arr(&res) = (int*) malloc(length*sizeof(int));
+    res.length = length;
+    res.tab = (int*) malloc((length+1)*sizeof(int));
+    return res;
+}
+
+ArrayOfList new_ArrayOfList(int length) {
+    ArrayOfList res;
+    res.length = length;
+    res.tab = (List*) malloc((length+1)*sizeof(List));
     return res;
 }
 
 ArrayOfBuilding new_ArrayOfBuilding(int length) {
     ArrayOfBuilding res;
-    Length(&res) = length;
-    Arr(&res) = (Building*) malloc(length*sizeof(Building));
+    res.length = length;
+    res.tab = (Building*) malloc((length+1)*sizeof(Building));
     return res;
 }
