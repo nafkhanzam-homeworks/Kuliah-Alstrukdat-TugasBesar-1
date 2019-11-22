@@ -1,7 +1,5 @@
 #include "queue.h"
 
-#include <stdlib.h>
-
 Queue new_Queue() {
     Queue res;
     list(&res) = NULL;

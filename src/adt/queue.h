@@ -1,7 +1,6 @@
 #if !defined(__queue_h__)
 #define __queue_h__
 
-typedef struct _Queue Queue;
 #include "../headers.h"
 
 typedef struct _Queue {

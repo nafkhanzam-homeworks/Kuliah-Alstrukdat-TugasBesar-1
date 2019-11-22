@@ -1,7 +1,6 @@
 #if !defined(__stack_h__)
 #define __stack_h__
 
-typedef struct _StackOfAct StackOfAct;
 #include "../headers.h"
 
 typedef struct _StackOfAct {

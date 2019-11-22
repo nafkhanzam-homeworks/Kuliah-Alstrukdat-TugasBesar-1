@@ -1,7 +1,6 @@
 #if !defined(__point_h__)
 #define __point_h__
 
-typedef struct _Point Point;
 #include "../headers.h"
 
 typedef struct _Point {

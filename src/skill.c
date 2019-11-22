@@ -47,11 +47,11 @@ char* Skill_getAcronym(int v) {
 
 
 void Skill_instantUpgrade(Game* p) {
-    for(int i=1 ; i<=((*p).buildingList).length ; i++){
-        if((((*p).buildingList).tab[i]).owner==(*p).turn && (((*p).buildingList).tab[i]).level<4){
-            (((*p).buildingList).tab[i]).level+=1;
-        }
-    }
+    // for(int i=1 ; i<=((*p).buildingList).length ; i++){
+    //     if((((*p).buildingList).tab[i]).owner==(*p).turn && (((*p).buildingList).tab[i]).level<4){
+    //         (((*p).buildingList).tab[i]).level+=1;
+    //     }
+    // }
 }
 
 void Skill_shield(Game* p) {
@@ -75,27 +75,27 @@ void Skill_criticalHit(Game* p) {
 }
 
 void Skill_instantReinforcement(Game* p) {
-    for(int i=1 ; i<=((*p).buildingList).length ; i++){
-        if((((*p).buildingList).tab[i]).owner==(*p).turn){
-            // armyCount((((*p).buildingList).tab[i]))+=5;
-        }
-    }
+    // for(int i=1 ; i<=((*p).buildingList).length ; i++){
+    //     if((((*p).buildingList).tab[i]).owner==(*p).turn){
+    //         armyCount((((*p).buildingList).tab[i]))+=5;
+    //     }
+    // }
 }
 
 void Skill_barrage(Game* p) {
-    int own;
-    if(turn(p)==1){
-        own=2;
-    }
-    else own=1;
-    for(int i=1 ; i<=((*p).buildingList).length ; i++){
-        if((((*p).buildingList).tab[i]).owner==own){
-            // armyCount((((*p).buildingList).tab[i]))-=10;
-            // if(armyCount((((*p).buildingList).tab[i]))==0){
-            //     (((*p).buildingList).tab[i]).owner=0;
-            // }
-        }
-    }
+    // int own;
+    // if(turn(p)==1){
+    //     own=2;
+    // }
+    // else own=1;
+    // for(int i=1 ; i<=((*p).buildingList).length ; i++){
+    //     if((((*p).buildingList).tab[i]).owner==own){
+    //         armyCount((((*p).buildingList).tab[i]))-=10;
+    //         if(armyCount((((*p).buildingList).tab[i]))==0){
+    //             (((*p).buildingList).tab[i]).owner=0;
+    //         }
+    //     }
+    // }
 }
 
 void Skill_do(Game* p, int v) {
@@ -108,5 +108,5 @@ void Skill_do(Game* p, int v) {
         case 6: Skill_instantReinforcement(p);
         case 7: Skill_barrage(p);
     }
-    StackOfAct_clear(&actStack(p));
+    StackOfAct_clear(actStack(p));
 }

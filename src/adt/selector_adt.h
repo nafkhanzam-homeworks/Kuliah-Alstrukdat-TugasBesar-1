@@ -5,7 +5,7 @@
 #define array(P) (P)->array
 #define tab(P) (P)->tab
 #define tabi(P, i) (P)->tab[(i)]
-#define tabij(P, i, j) (P)->array.tab[i*((P)->col) + j]
+#define tabij(P, i, j) tab((P)->array)[((i)-1)*((P)->col) + (j)]
 #define row(P) (P)->row
 #define col(P) (P)->col
 #define info(P) (P)->info

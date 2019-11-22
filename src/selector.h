@@ -14,7 +14,7 @@
 #define buildingList(P) (P)->buildingList
 #define buildingGraph(P) (P)->buildingGraph
 #define players(P) (P)->players
-#define playersi(P, i) tabi(&players((P)), (i))
+#define playersi(P, i) tabi(players((P)), (i))
 #define turn(P) (P)->turn
 #define isExiting(P) (P)->isExiting
 #define extraTurn(P) (P)->extraTurn
@@ -24,5 +24,8 @@
 #define config(P) (P)->config
 #define command(P) (P)->command
 #define skillQueue(P) (P)->skillQueue
+#define N(P) (P)->N
+#define ROW(P) (P)->ROW
+#define COL(P) (P)->COL
 
 #endif // __selector_h__

@@ -1,8 +1,6 @@
 #if !defined(__act_h__)
 #define __act_h__
 
-typedef struct _Ops Ops;
-typedef struct _Act Act;
 #include "headers.h"
 
 typedef struct _Ops {
@@ -19,14 +17,14 @@ typedef struct _Act {
 
 Act new_Act();
 void Act_addOps(Act* p, Ops v);
-void Act_attack(Game* p, int attackerBuildingId, int defenceBuildingId, int val);
-void Act_levelUp(Game* p, int buildingId);
-void Act_skill(Game* p, int skillType);
-void Act_undo(Game* p);
-void Act_endTurn(Game* p);
-void Act_save(Game* p);
-void Act_move(Game* p, int fromBuildingId, int toBuildingId, int val);
-void Act_exit(Game* p);
+boolean Act_attack(Game* p, int attackerBuildingId, int defenceBuildingId, int val);
+boolean Act_levelUp(Game* p, int buildingId);
+boolean Act_skill(Game* p, int skillType);
+boolean Act_undo(Game* p);
+boolean Act_endTurn(Game* p);
+boolean Act_save(Game* p);
+boolean Act_move(Game* p, int fromBuildingId, int toBuildingId, int val);
+boolean Act_exit(Game* p);
 boolean Act_do(Game* p, char* cmd);
 
 #endif // __act_h__

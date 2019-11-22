@@ -24,33 +24,41 @@ void Act_addOps(Act* p, Ops v) {
     ListOfOps_addFirst(&list(p), v);
 }
 
-void Act_attack(Game* p, int attackerBuildingId, int defenceBuildingId, int val) {
+boolean Act_attack(Game* p, int attackerBuildingId, int defenceBuildingId, int val) {
     
 }
 
-void Act_levelUp(Game* p, int buildingId) {
+boolean Act_levelUp(Game* p, int buildingId) {
     
 }
 
-void Act_skill(Game* p, int skillType) {
+boolean Act_skill(Game* p, int skillType) {
     Skill_do(p, skillType);
 }
 
-void Act_undo(Game* p) {
-    Act act = StackOfAct_pop(&actStack(p));
+boolean Act_undo(Game* p) {
+    Act act = StackOfAct_pop(actStack(p));
     ListOfOps list = list(&act);
     while (list != NULL) {
-        Ops ops = info(list);
-        switch (type(&ops)) {
+        Ops* ops = info(list);
+        switch (type(ops)) {
+            case -2: {
+                List_addFirst((List*)target(ops), value(ops));
+                break;
+            }
             case -1: {
-                Queue_add((Queue*)target(&ops), value(&ops));
+                Queue_add((Queue*)target(ops), value(ops));
                 break;
             }
             case 0: {
-                *((int*)target(&ops)) = value(&ops);
+                *((int*)target(ops)) = value(ops);
             }
             case 1: {
-                Queue_remove((Queue*)target(&ops));
+                Queue_remove((Queue*)target(ops));
+                break;
+            }
+            case 2: {
+                List_removeFirst((List*)target(ops));
                 break;
             }
         }
@@ -58,19 +66,19 @@ void Act_undo(Game* p) {
     }
 }
 
-void Act_endTurn(Game* p) {
+boolean Act_endTurn(Game* p) {
     
 }
 
-void Act_save(Game* p) {
+boolean Act_save(Game* p) {
     
 }
 
-void Act_move(Game* p, int fromBuildingId, int toBuildingId, int val) {
+boolean Act_move(Game* p, int fromBuildingId, int toBuildingId, int val) {
     
 }
 
-void Act_exit(Game* p) {
+boolean Act_exit(Game* p) {
     isExiting(p) = true;
 }
 
@@ -83,7 +91,7 @@ boolean Act_do(Game* p, char* cmd) {
     } else if (compareString(cmd, "skill")) {
 
     } else if (compareString(cmd, "undo")) {
-        Act_undo(p);
+        return Act_undo(p);
     } else if (compareString(cmd, "end_turn")) {
 
     } else if (compareString(cmd, "save")) {
@@ -91,7 +99,8 @@ boolean Act_do(Game* p, char* cmd) {
     } else if (compareString(cmd, "move")) {
 
     } else if (compareString(cmd, "exit")) {
-        Act_exit(p);
+        printf("Bye-bye!\n");
+        return Act_exit(p);
     } else {
         printf("%s\n", "Command not found!");
         return false;

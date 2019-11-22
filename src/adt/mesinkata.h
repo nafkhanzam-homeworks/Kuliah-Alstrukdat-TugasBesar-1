@@ -1,7 +1,6 @@
 #if !defined(__mesinkata_h__)
 #define __mesinkata_h__
 
-typedef struct _MesinKata MesinKata;
 #include <stdio.h>
 #include "../headers.h"
 

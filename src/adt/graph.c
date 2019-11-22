@@ -1,18 +1,18 @@
 #include "graph.h"
 
-#include <stdlib.h>
-#include "list.h"
-#include "array.h"
-
-Graph new_Graph(int length) {
+Graph new_Graph() {
     Graph res;
-    length(&res) = length;
-    array(&res) = new_ArrayOfList(length);
+    list(&res) = NULL;
     return res;
 }
 
 void Graph_add1(Graph* p, int i, int j) {
-    List_addLast(&tabi(&array(p), i), j);
+    if (ListOfList_getLength(&list(p)) < i) {
+        ListOfList_addLast(&list(p), new_List(j));
+        return;
+    }
+    List list = ListOfList_getAt(&list(p), i);
+    List_addFirst(&list, j);
 }
 
 void Graph_add2(Graph* p, int i, int j) {

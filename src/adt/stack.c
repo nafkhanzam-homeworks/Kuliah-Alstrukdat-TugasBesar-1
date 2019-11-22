@@ -1,7 +1,5 @@
 #include "stack.h"
 
-#include <stdlib.h>
-
 StackOfAct new_StackOfAct(){
     StackOfAct res;
     list(&res) = NULL;

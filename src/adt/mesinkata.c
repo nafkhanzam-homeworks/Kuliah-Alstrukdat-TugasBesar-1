@@ -1,9 +1,5 @@
 #include "mesinkata.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "../utils/utils.h"
-
 MesinKata new_MesinKata() {
     MesinKata res;
     stream(&res) = stdin;
@@ -29,7 +25,11 @@ void MesinKata_ignoreBlank(MesinKata* p) {
 }
 
 void MesinKata_adv(MesinKata* p) {
-    fscanf(stream(p), "%c", &readChar(p));
+    if (!feof(stream(p))) {
+        fscanf(stream(p), "%c", &readChar(p));
+    } else {
+        readChar(p) = 0;
+    }
 }
 
 char* MesinKata_readString(MesinKata* p) {
@@ -57,5 +57,6 @@ int MesinKata_readInt(MesinKata* p) {
 boolean MesinKata_isNonReadableCharacter(MesinKata* p) {
     return!('0' <= readChar(p) && readChar(p) <= '9' ||
             'a' <= readChar(p) && readChar(p) <= 'z' ||
-            'A' <= readChar(p) && readChar(p) <= 'Z');
+            'A' <= readChar(p) && readChar(p) <= 'Z' ||
+            readChar(p) == '_');
 }

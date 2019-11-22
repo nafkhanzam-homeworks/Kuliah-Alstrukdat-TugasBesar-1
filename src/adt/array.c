@@ -1,18 +1,9 @@
 #include "array.h"
 
-#include <stdlib.h>
-
 Array new_Array(int length) {
     Array res;
     length(&res) = length;
     tab(&res) = (int*) malloc((length+1)*sizeof(int));
-    return res;
-}
-
-ArrayOfList new_ArrayOfList(int length) {
-    ArrayOfList res;
-    length(&res) = length;
-    tab(&res) = (List*) malloc((length+1)*sizeof(List));
     return res;
 }
 

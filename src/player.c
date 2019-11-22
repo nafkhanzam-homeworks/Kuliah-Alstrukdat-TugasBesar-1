@@ -3,7 +3,9 @@
 Player new_Player() {
     Player res;
     buildingList(&res) = NULL;
-    skillQueue(&res) = new_Queue();
+    skillQueue(&res) = (Queue*) malloc(sizeof(Queue));
+    *skillQueue(&res) = new_Queue();
+    Queue_add(skillQueue(&res), 1);
     criticalHit(&res) = false;
     extraTurn(&res) = false;
     shieldTurn(&res) = 0;

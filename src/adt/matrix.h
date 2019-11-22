@@ -1,11 +1,10 @@
 #if !defined(__matrix_h__)
 #define __matrix_h__
 
-typedef struct _Matrix Matrix;
 #include "../headers.h"
 
 typedef struct _Matrix {
-    Array array;
+    Array* array;
     int row, col;
 } Matrix;
 

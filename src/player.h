@@ -1,12 +1,11 @@
 #if !defined(__player_h__)
 #define __player_h__
 
-typedef struct _Player Player;
 #include "headers.h"
 
 typedef struct _Player {
     List buildingList;
-    Queue skillQueue;
+    Queue* skillQueue;
     int shieldTurn;
     boolean extraTurn, attackUp, criticalHit;
 } Player;
