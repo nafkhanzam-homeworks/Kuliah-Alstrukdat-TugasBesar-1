@@ -1,7 +1,7 @@
 #if !defined(__skill_h__)
 #define __skill_h__
 
-#include "game.h"
+#include "headers.h"
 
 #define MAX_QUEUE 10
 

@@ -1,7 +1,7 @@
 #if !defined(__MAIN__)
 #define __MAIN__
 
-#include "game.h"
+#include "headers.h"
 
 int main() {
     Game game = new_Game();

@@ -23,3 +23,7 @@ void Queue_add(Queue* p, int v) {
 int Queue_remove(Queue* p) {
     return List_removeFirst(&list(p));
 }
+
+int Queue_peek(Queue* p) {
+    return info(list(p));
+}

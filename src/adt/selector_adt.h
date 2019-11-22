@@ -4,7 +4,7 @@
 #define length(P) (P)->length
 #define array(P) (P)->array
 #define tab(P) (P)->tab
-#define tabi(P, i) (P)->tab[i]
+#define tabi(P, i) (P)->tab[(i)]
 #define tabij(P, i, j) (P)->array.tab[i*((P)->col) + j]
 #define row(P) (P)->row
 #define col(P) (P)->col

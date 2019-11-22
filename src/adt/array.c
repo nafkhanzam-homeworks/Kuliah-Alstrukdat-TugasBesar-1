@@ -22,3 +22,10 @@ ArrayOfBuilding new_ArrayOfBuilding(int length) {
     tab(&res) = (Building*) malloc((length+1)*sizeof(Building));
     return res;
 }
+
+ArrayOfPlayer new_ArrayOfPlayer(int length) {
+    ArrayOfPlayer res;
+    length(&res) = length;
+    tab(&res) = (Player*) malloc((length+1)*sizeof(Player));
+    return res;
+}

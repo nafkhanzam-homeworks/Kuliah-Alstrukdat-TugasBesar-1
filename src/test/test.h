@@ -9,7 +9,7 @@
 int total = 0, correct = 0;
 
 int eq(char* a, char* b) {
-    return !strcmp(a, b);
+    return !compareString(a, b);
 }
 
 int asserts(char* msg, char* a, char* b) {

@@ -1,12 +1,10 @@
 #if !defined(__queue_h__)
 #define __queue_h__
 
-#include "selector_adt.h"
+typedef struct _Queue Queue;
+#include "../headers.h"
 
-#include "boolean.h"
-#include "list.h"
-
-typedef struct {
+typedef struct _Queue {
     List list;
 } Queue;
 
@@ -15,6 +13,7 @@ boolean Queue_isEmpty(Queue* p);
 int Queue_getLength(Queue* p);
 void Queue_add(Queue* p, int v);
 int Queue_remove(Queue* p);
+int Queue_peek(Queue* p);
 
 #endif // __queue_h__
 

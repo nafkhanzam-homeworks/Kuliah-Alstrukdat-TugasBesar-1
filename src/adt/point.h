@@ -1,9 +1,10 @@
 #if !defined(__point_h__)
 #define __point_h__
 
-#include "selector_adt.h"
+typedef struct _Point Point;
+#include "../headers.h"
 
-typedef struct {
+typedef struct _Point {
     int x, y;
 } Point;
 

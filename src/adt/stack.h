@@ -1,13 +1,10 @@
 #if !defined(__stack_h__)
 #define __stack_h__
 
-#include "selector_adt.h"
+typedef struct _StackOfAct StackOfAct;
+#include "../headers.h"
 
-#include "boolean.h"
-#include "list.h"
-#include "../act.h"
-
-typedef struct {
+typedef struct _StackOfAct {
     ListOfAct list;
 } StackOfAct;
 

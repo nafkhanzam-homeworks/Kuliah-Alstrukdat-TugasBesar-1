@@ -5,6 +5,9 @@
 
 #define MAX_LENGTH 1 << 7
 
-boolean strcmp(char* a, char* b);
+boolean compareString(char* a, char* b);
+char* toLowerCase(char* p);
+int max(int a, int b);
+int min(int a, int b);
 
 #endif // __utils_h__

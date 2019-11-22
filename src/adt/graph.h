@@ -1,11 +1,10 @@
 #if !defined(__graph_h__)
 #define __graph_h__
 
-#include "selector_adt.h"
+typedef struct _Graph Graph;
+#include "../headers.h"
 
-#include "array.h"
-
-typedef struct {
+typedef struct _Graph {
 	int length;
 	ArrayOfList array;
 } Graph;

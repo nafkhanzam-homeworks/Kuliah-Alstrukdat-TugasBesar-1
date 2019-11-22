@@ -1,12 +1,11 @@
 #if !defined(__list_h__)
 #define __list_h__
 
-#include "selector_adt.h"
-
-#include "boolean.h"
-#include "../act.h"
-
 typedef struct _List* List;
+typedef struct _ListOfOps* ListOfOps;
+typedef struct _ListOfAct* ListOfAct;
+#include "../headers.h"
+
 typedef struct _List {
     int info;
     List next;
@@ -21,8 +20,8 @@ int List_getLength(List* p);
 List List_getSecondLast(List* p);
 int List_removeFirst(List* p);
 int List_removeLast(List* p);
+int List_getAt(List* p, int i);
 
-typedef struct _ListOfOps* ListOfOps;
 typedef struct _ListOfOps {
     Ops info;
     ListOfOps next;
@@ -38,7 +37,6 @@ ListOfOps ListOfOps_getSecondLast(ListOfOps* p);
 Ops ListOfOps_removeFirst(ListOfOps* p);
 Ops ListOfOps_removeLast(ListOfOps* p);
 
-typedef struct _ListOfAct* ListOfAct;
 typedef struct _ListOfAct {
     Act info;
     ListOfAct next;

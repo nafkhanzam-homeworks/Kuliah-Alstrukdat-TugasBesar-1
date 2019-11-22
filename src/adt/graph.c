@@ -1,6 +1,8 @@
 #include "graph.h"
 
 #include <stdlib.h>
+#include "list.h"
+#include "array.h"
 
 Graph new_Graph(int length) {
     Graph res;

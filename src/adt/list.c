@@ -80,6 +80,13 @@ int List_removeLast(List* p) {
     return res;
 }
 
+int List_getAt(List* p, int i) {
+    if (i != 1) {
+        return List_getAt(&next(*p), i-1);
+    }
+    return info(*p);
+}
+
 ListOfOps new_ListOfOps(Ops v) {
     ListOfOps res = (ListOfOps) malloc(sizeof(ElementOfListOfOps));
     info(res) = v;

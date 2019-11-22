@@ -1,13 +1,14 @@
 #if !defined(__player_h__)
 #define __player_h__
 
-#include "selector.h"
+typedef struct _Player Player;
+#include "headers.h"
 
-#include "adt/stack.h"
-
-typedef struct {
-    boolean extraTurn, attackUp, criticalHit;
+typedef struct _Player {
+    List buildingList;
+    Queue skillQueue;
     int shieldTurn;
+    boolean extraTurn, attackUp, criticalHit;
 } Player;
 
 Player new_Player();

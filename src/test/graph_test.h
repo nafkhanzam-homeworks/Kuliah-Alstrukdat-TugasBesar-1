@@ -4,7 +4,7 @@
 #include "test.h"
 #include "../adt/graph.h"
 
-GraphTest_do() {
+void GraphTest_do() {
     
 }
 

@@ -1,17 +1,15 @@
 #if !defined(__building_h__)
 #define __building_h__
 
-#include "selector.h"
-
-#include "adt/point.h"
-#include "adt/boolean.h"
-
 #define MAX_LEVEL 4
 
-typedef struct {
+typedef struct _Building Building;
+#include "headers.h"
+
+typedef struct _Building {
     char type;
     Point position;
-    int armyCount, level, shieldCount, owner;
+    int armyCount, level, owner;
 } Building;
 
 Building new_Building(char c, int x, int y);
