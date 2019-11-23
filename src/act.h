@@ -9,6 +9,7 @@ typedef struct _Ops {
 } Ops;
 
 Ops new_Ops(void* target, int value);
+Ops new_OpsDefault(void* target);
 Ops new_OpsQueue(void* target, int value, boolean add);
 
 typedef struct _Act {

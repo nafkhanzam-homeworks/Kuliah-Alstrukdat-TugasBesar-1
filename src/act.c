@@ -8,6 +8,10 @@ Ops new_Ops(void* target, int value) {
     return res;
 }
 
+Ops new_OpsDefault(void* target) {
+    return new_Ops(target, *(int*)target);
+}
+
 Ops new_OpsQueue(void* target, int value, boolean add) {
     Ops res = new_Ops(target, value);
     type(&res) = add ? 1 : -1;
@@ -87,6 +91,13 @@ boolean Act_move(Game* p, Act* act, int fromBuildingId, int toBuildingId, int va
     Building from = ListOfBuilding_getAt(buildingList(p), fromBuildingId);
     Building to = ListOfBuilding_getAt(buildingList(p), fromBuildingId);
 
+    Act_addOps(act, new_OpsDefault(&armyCount(&from)));
+    armyCount(&from) -= val;
+
+    Act_addOps(act, new_OpsDefault(&armyCount(&to)));
+    armyCount(&to) += val;
+
+    return true;
 }
 
 boolean Act_exit(Game* p) {
@@ -105,13 +116,7 @@ boolean Act_do(Game* p, char* cmd) {
         attackId = List_getAt(&list, attackId);
 
         List bIndexList = Game_getAdjencyBuildings(p, attackId, true);
-        int i = 0;
-        printf("Building List:\n");
-        while (bIndexList != NULL) {
-            Building b = ListOfBuilding_getAt(&buildingList(p), info(bIndexList));
-            Building_printStatus(&b, ++i);
-            bIndexList = next(bIndexList);
-        }
+        Building_printList(p, bIndexList, "Building List:");
 
         int defenceId = Game_readCommandInt(p, "Choose building number to attack: ", 1, List_getLength(&bIndexList));
         defenceId = List_getAt(&bIndexList, defenceId);
@@ -122,9 +127,15 @@ boolean Act_do(Game* p, char* cmd) {
             printf(val < 0 ? "Army count have to be above zero!" : "You only have %d army in that building!\n", armyCount(&attacker));
             val = Game_readCommandInt(p, "Input the amount of army to attack: ", 0, -1);
         }
+
         success = Act_attack(p, &act, attackId, defenceId, val);
     } else if (compareString(cmd, "level_up")) {
-        
+        List list = buildingList(&pl);
+
+        int buildingId = Game_readCommandInt(p, "Choose building number to level up: ", 1, List_getLength(&list));
+        buildingId = List_getAt(&list, buildingId);
+
+        success = Act_levelUp(p, &act, buildingId);
     } else if (compareString(cmd, "skill")) {
         Queue* skillQueue = skillQueue(&pl);
         if (Queue_isEmpty(skillQueue)) {
@@ -146,22 +157,18 @@ boolean Act_do(Game* p, char* cmd) {
         fromId = List_getAt(&list, fromId);
 
         List bIndexList = Game_getAdjencyBuildings(p, fromId, false);
-        int i = 0;
-        while (bIndexList != NULL) {
-            Building b = ListOfBuilding_getAt(&buildingList(p), info(bIndexList));
-            Building_printStatus(&b, ++i);
-            bIndexList = next(bIndexList);
-        }
+        Building_printList(p, bIndexList, "Building List:");
 
         int toId = Game_readCommandInt(p, "Choose building number to move to: ", 1, List_getLength(&bIndexList));
         toId = List_getAt(&bIndexList, toId);
 
-        int val = Game_readCommandInt(p, "Input the amount of army to move: ", 0, -1);
         Building from = ListOfBuilding_getAt(buildingList(p), fromId);
+        int val = Game_readCommandInt(p, "Input the amount of army to move: ", 0, -1);
         while (val < 0 || val > armyCount(&from)) {
             printf(val < 0 ? "Army count have to be above zero!" : "You only have %d army in that building!\n", armyCount(&from));
             val = Game_readCommandInt(p, "Input the amount of army to attack: ", 0, -1);
         }
+
         success = Act_move(p, &act, fromId, toId, val);
     } else if (compareString(cmd, "exit")) {
         printf("Bye-bye!\n");

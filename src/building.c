@@ -16,7 +16,13 @@ boolean Building_levelUp(Building* p) {
 }
 
 void Building_printList(Game* p, List list, char* title) {
-    
+    int i = 0;
+    printf("%s\n", title);
+    while (list != NULL) {
+        Building b = ListOfBuilding_getAt(&buildingList(p), info(list));
+        Building_printStatus(&b, ++i);
+        list = next(list);
+    }
 }
 
 void Building_printStatus(Building* p, int number) {
