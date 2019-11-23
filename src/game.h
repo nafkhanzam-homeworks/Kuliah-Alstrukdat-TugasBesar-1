@@ -28,4 +28,9 @@ void Game_checkFinishGame(Game* p);
 void Game_endTurn(Game* p);
 List Game_getAdjencyBuildings(Game* p, int buildingId, boolean enemy);
 
+// save format
+// <config.txt>
+// //each building
+// <owner> <level> <armyCount>
+
 #endif // __game_h__

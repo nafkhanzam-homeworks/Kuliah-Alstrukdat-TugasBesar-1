@@ -181,6 +181,16 @@ List ListOfList_getAt(ListOfList* p, int i) {
     return info(*p);
 }
 
+boolean List_contains(List* p, int i) {
+    if (List_isEmpty(p)) {
+        return false;
+    }
+    if (info(*p) == i) {
+        return true;
+    }
+    return List_contains(&next(*p), i);
+}
+
 ListOfOps new_ListOfOps(Ops v) {
     ListOfOps res = (ListOfOps) malloc(sizeof(ElementOfListOfOps));
     info(res) = (Ops*) malloc(sizeof(Ops));

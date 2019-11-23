@@ -133,12 +133,7 @@ void Game_printTurnInfo(Game* p) {
     printf("Player %d\n", turn(p));
     Player pl = Player_getCurrentPlayer(p);
     List bIndexList = buildingList(&pl);
-    int i = 0;
-    while (bIndexList != NULL) {
-        Building b = ListOfBuilding_getAt(&buildingList(p), info(bIndexList));
-        Building_printStatus(&b, ++i);
-        bIndexList = next(bIndexList);
-    }
+    Building_printList(p, bIndexList, "Building List:");
     printf("Skill Available: %s\n", Queue_isEmpty(skillQueue(&pl)) ? "-" : Skill_getAcronym(Queue_peek(skillQueue(&pl))));
 }
 
@@ -159,6 +154,7 @@ void Game_checkFinishGame(Game* p) {
 void Game_endTurn(Game* p) {
     Player pl = Player_getCurrentPlayer(p);
     if (extraTurn(&pl)) {
+        printf("Extra turn has been used! You have one more turn!\n");
         extraTurn(&pl) = false;
     } else {
         turn(p) = turn(p) == 1 ? 2 : 1;
@@ -167,16 +163,17 @@ void Game_endTurn(Game* p) {
 
 List Game_getAdjencyBuildings(Game* p, int buildingId, boolean enemy) {
     List res = NULL;
-    List bIndexList = List_getAt(&list(buildingGraph(p)), buildingId);
-    int owner = turn(p);
+    List bIndexList = ListOfList_getAt(&list(buildingGraph(p)), buildingId);
+    int targetOwner = turn(p);
     if (enemy) {
-        owner = owner%2 + 1;
+        targetOwner = targetOwner%2 + 1;
     }
     while (bIndexList != NULL) {
-        Building b = ListOfBuilding_getAt(&buildingList(p), info(bIndexList));
-        if (owner(&b) == owner) {
+        Building b = Building_getBuilding(p, info(bIndexList));
+        if (owner(&b) == targetOwner) {
             List_addLast(&res, info(bIndexList));
         }
+        bIndexList = next(bIndexList);
     }
     return res;
 }

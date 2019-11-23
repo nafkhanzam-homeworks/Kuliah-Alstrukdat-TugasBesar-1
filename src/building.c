@@ -11,10 +11,6 @@ Building new_Building(char c, int x, int y, int owner) {
     return res;
 }
 
-boolean Building_levelUp(Building* p) {
-    
-}
-
 void Building_printList(Game* p, List list, char* title) {
     int i = 0;
     printf("%s\n", title);
@@ -73,6 +69,6 @@ int Building_getStartingArmy(char type) {
     return -1;
 }
 
-void Building_setOwner(Building* p, Game* gp, int toOwner) {
-    
+Building Building_getBuilding(Game* p, int id) {
+    return ListOfBuilding_getAt(&buildingList(p), id);
 }
