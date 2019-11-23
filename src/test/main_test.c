@@ -2,8 +2,6 @@
 #define __TEST__
 
 #include <stdio.h>
-#include "../utils/pcolor.h"
-
 #include "test.h"
 #include "array_test.h"
 #include "graph_test.h"

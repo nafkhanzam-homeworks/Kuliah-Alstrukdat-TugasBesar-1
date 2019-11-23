@@ -19,11 +19,13 @@ Game new_Game();
 void Game_init(Game* p);
 void Game_initConfig(Game* p);
 void Game_initConfig2(Game* p);
-char* Game_readCommand(Game* p);
+char* Game_readCommand(Game* p, char* msg);
+int Game_readCommandInt(Game* p, char* msg, int l, int r);
 void Game_playTurn(Game* p);
 void Game_printMap(Game* p);
 void Game_printTurnInfo(Game* p);
 void Game_checkFinishGame(Game* p);
 void Game_endTurn(Game* p);
+List Game_getAdjencyBuildings(Game* p, int buildingId, boolean enemy);
 
 #endif // __game_h__

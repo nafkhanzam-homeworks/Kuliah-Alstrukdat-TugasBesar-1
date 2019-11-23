@@ -2,21 +2,20 @@
 #define __array_test_h__
 
 #include "test.h"
-#include "../adt/array.h"
 
 void Array_toString(Array* p, char* res) {
     char str[128];
     res[0] = 0;
-    strcat(res, "[");
+    append(res, "[");
     if (p->length > 0) {
         sprintf(str, "%d", p->tab[0]);
-        strcat(res, str);
+        append(res, str);
         for (int i = 1; i < p->length; ++i) {
             sprintf(str, ",%d", p->tab[i]);
-            strcat(res, str);
+            append(res, str);
         }
     }
-    strcat(res, "]");
+    append(res, "]");
 }
 
 void ArrayTest_do() {

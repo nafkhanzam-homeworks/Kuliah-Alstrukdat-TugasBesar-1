@@ -17,13 +17,15 @@ typedef struct _Act {
 
 Act new_Act();
 void Act_addOps(Act* p, Ops v);
-boolean Act_attack(Game* p, int attackerBuildingId, int defenceBuildingId, int val);
-boolean Act_levelUp(Game* p, int buildingId);
+boolean Act_isEmpty(Act* p);
+
+boolean Act_attack(Game* p, Act* act, int attackerBuildingId, int defenceBuildingId, int val);
+boolean Act_levelUp(Game* p, Act* act, int buildingId);
 boolean Act_skill(Game* p, int skillType);
 boolean Act_undo(Game* p);
 boolean Act_endTurn(Game* p);
 boolean Act_save(Game* p);
-boolean Act_move(Game* p, int fromBuildingId, int toBuildingId, int val);
+boolean Act_move(Game* p, Act* act, int fromBuildingId, int toBuildingId, int val);
 boolean Act_exit(Game* p);
 boolean Act_do(Game* p, char* cmd);
 

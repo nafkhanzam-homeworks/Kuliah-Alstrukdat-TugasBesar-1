@@ -2,7 +2,6 @@
 #define __graph_test_h__
 
 #include "test.h"
-#include "../adt/graph.h"
 
 void GraphTest_do() {
     

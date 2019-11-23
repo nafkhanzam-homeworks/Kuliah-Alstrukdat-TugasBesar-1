@@ -2,7 +2,6 @@
 #define __queue_test_h__
 
 #include "test.h"
-#include "../adt/queue.h"
 
 void QueueTest_do() {
     

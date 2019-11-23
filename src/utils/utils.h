@@ -1,7 +1,7 @@
 #if !defined(__utils_h__)
 #define __utils_h__
 
-#include "../adt/boolean.h"
+#include "../headers.h"
 
 #define MAX_LENGTH 1 << 7
 

@@ -15,6 +15,14 @@ boolean Building_levelUp(Building* p) {
     
 }
 
+void Building_printList(Game* p, List list, char* title) {
+    
+}
+
+void Building_printStatus(Building* p, int number) {
+    printf("%d. %s (%d,%d) %d lv. %d\n", number, Building_getName(type(p)), x(position(p)), y(position(p)), armyCount(p), level(p));
+}
+
 int Building_getMaxArmy(char type, int level) {
     switch (type) {
         case 'C': return 20*(level+1);

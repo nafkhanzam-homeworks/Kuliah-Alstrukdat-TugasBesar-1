@@ -56,8 +56,22 @@ void Game_initConfig2(Game* p) {
     }
 }
 
-char* Game_readCommand(Game* p) {
-    MesinKata_readString(command(p));
+char* Game_readCommand(Game* p, char* msg) {
+    printf(msg);
+    return MesinKata_readString(command(p));
+}
+
+int Game_readCommandInt(Game* p, char* msg, int l, int r) {
+    printf(msg);
+    int res = MesinKata_readInt(command(p));
+    if (l <= r) {
+        while (res < l || res > r) {
+            printf("Input is not valid!\n");
+            printf(msg);
+            res = MesinKata_readInt(command(p));
+        }
+    }
+    return res;
 }
 
 void Game_playTurn(Game* p) {
@@ -65,8 +79,7 @@ void Game_playTurn(Game* p) {
     Game_printTurnInfo(p);
     char* command;
     do {
-        printf("ENTER COMMAND: ");
-        command = Game_readCommand(p);
+        command = Game_readCommand(p, "ENTER COMMAND: ");
     } while (!Act_do(p, command));
     Game_checkFinishGame(p);
     Game_endTurn(p);
@@ -123,7 +136,7 @@ void Game_printTurnInfo(Game* p) {
     int i = 0;
     while (bIndexList != NULL) {
         Building b = ListOfBuilding_getAt(&buildingList(p), info(bIndexList));
-        printf("%d. %s (%d,%d) %d lv. %d\n", ++i, Building_getName(type(&b)), x(position(&b)), y(position(&b)), armyCount(&b), level(&b));
+        Building_printStatus(&b, ++i);
         bIndexList = next(bIndexList);
     }
     printf("Skill Available: %s\n", Queue_isEmpty(skillQueue(&pl)) ? "-" : Skill_getAcronym(Queue_peek(skillQueue(&pl))));
@@ -150,4 +163,20 @@ void Game_endTurn(Game* p) {
     } else {
         turn(p) = turn(p) == 1 ? 2 : 1;
     }
+}
+
+List Game_getAdjencyBuildings(Game* p, int buildingId, boolean enemy) {
+    List res = NULL;
+    List bIndexList = List_getAt(&list(buildingGraph(p)), buildingId);
+    int owner = turn(p);
+    if (enemy) {
+        owner = owner%2 + 1;
+    }
+    while (bIndexList != NULL) {
+        Building b = ListOfBuilding_getAt(&buildingList(p), info(bIndexList));
+        if (owner(&b) == owner) {
+            List_addLast(&res, info(bIndexList));
+        }
+    }
+    return res;
 }

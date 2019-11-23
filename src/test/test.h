@@ -2,14 +2,23 @@
 #define __test_h__
 
 #include <stdio.h>
-#include <string.h>
-#include "../adt/boolean.h"
-#include "../utils/pcolor.h"
+#include "../headers.h"
 
 int total = 0, correct = 0;
 
 int eq(char* a, char* b) {
-    return !compareString(a, b);
+    return compareString(a, b);
+}
+
+void append(char* a, char* b) {
+    int i = 0;
+    while (a[i] != 0) ++i;
+    int j = i;
+    while (b[i-j] != 0) {
+        a[i] = b[i-j];
+        ++i;
+    }
+    a[i] = 0;
 }
 
 int asserts(char* msg, char* a, char* b) {
