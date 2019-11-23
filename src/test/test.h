@@ -6,10 +6,6 @@
 
 int total = 0, correct = 0;
 
-int eq(char* a, char* b) {
-    return compareString(a, b);
-}
-
 void append(char* a, char* b) {
     int i = 0;
     while (a[i] != 0) ++i;
@@ -22,7 +18,7 @@ void append(char* a, char* b) {
 }
 
 int asserts(char* msg, char* a, char* b) {
-    boolean res = eq(a, b);
+    boolean res = compareString(a, b);
     printf("%s%d. %s - %s%s%s%s\n", res ? GREEN : RED, ++total, res ? "PASSED" : "FAILED", msg, " ", a, NORMAL);
     if (res) {
         ++correct;

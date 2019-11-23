@@ -5,7 +5,9 @@
 
 typedef struct _Ops {
     void* target;
-    int value, type; // type: -2 = removed from list, -1 = removed from queue, 0 = old value, 1 = added to queue, 2 = added to list
+    int value, type; 
+    // type: -2 = removed from list, -1 = removed from queue,
+    //        0 = old value, 1 = added to queue, 2 = added to list
 } Ops;
 
 Ops new_Ops(void* target, int value);

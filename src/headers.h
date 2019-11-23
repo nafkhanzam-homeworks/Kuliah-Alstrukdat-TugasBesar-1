@@ -20,6 +20,9 @@ typedef struct _MesinKata MesinKata;
 typedef struct _Point Point;
 typedef struct _StackOfAct StackOfAct;
 typedef struct _Queue Queue;
+
+MesinKata* console;
+
 #include <stdlib.h>
 #include "adt/boolean.h"
 #include "utils/pcolor.h"

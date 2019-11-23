@@ -32,10 +32,9 @@ boolean Act_isEmpty(Act* p) {
     return ListOfOps_isEmpty(&list(p));
 }
 
-// TODO: DON'T FORGET OPS EACH OPERATION
 void Act_changeTheOwnership(Game* p, Act* act, int buildingId) {
     Building b = Building_getBuilding(p, buildingId);
-    Act_addOps(act, new_OpsDefault(owner(&b))); owner(&b) = owner(&b)%2 + 1;
+    Act_addOps(act, new_OpsDefault(&owner(&b))); owner(&b) = owner(&b)%2 + 1;
 }
 
 // TODO: DON'T FORGET OPS EACH OPERATION
@@ -52,7 +51,6 @@ boolean Act_attack(Game* p, Act* act, int attackerBuildingId, int defenderBuildi
     }
 }
 
-// TODO: DON'T FORGET OPS EACH OPERATION
 boolean Act_levelUp(Game* p, Act* act, int buildingId) {
     Building b = Building_getBuilding(p, buildingId);
     Act_addOps(act, new_OpsDefault(&armyCount(&b))); armyCount(&b) <<= 2;
@@ -109,11 +107,12 @@ boolean Act_save(Game* p, char* fileName) {
         fprintf(file, "%c %d %d\n", type(&b), x(position(&b)), y(position(&b)));
     }
     for (int i = 1; i <= N(p); ++i) {
-        List list = ListOfList_getAt(&buildingGraph(p), i);
+        List list = ListOfList_getAt(&list(buildingGraph(p)), i);
         for (int j = 1; j <= N(p); ++j) {
-            fprintf(file, "%d%s", List_contains(list, j) ? 1 : 0, j == N(p) ? "\n" : " ");
+            fprintf(file, "%d%s", List_contains(&list, j) ? 1 : 0, j == N(p) ? "\n" : " ");
         }
     }
+    fprintf(file, "%d\n", turn(p));
     for (int i = 1; i <= N(p); ++i) {
         Building b = Building_getBuilding(p, i);
         fprintf(file, "%d %d %d\n", owner(&b), level(&b), armyCount(&b));
@@ -122,7 +121,6 @@ boolean Act_save(Game* p, char* fileName) {
     return true;
 }
 
-// TODO: DON'T FORGET OPS EACH OPERATION
 boolean Act_move(Game* p, Act* act, int fromBuildingId, int toBuildingId, int val) {
     Building from = ListOfBuilding_getAt(&buildingList(p), fromBuildingId);
     Building to = ListOfBuilding_getAt(&buildingList(p), fromBuildingId);

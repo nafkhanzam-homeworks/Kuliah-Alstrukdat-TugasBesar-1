@@ -11,8 +11,6 @@ Game new_Game(char* configFileName) {
     buildingGraph(&res) = (Graph*) malloc(sizeof(Graph));
     *buildingGraph(&res) = new_Graph(n);
     buildingList(&res) = NULL;
-    command(&res) = (MesinKata*) malloc(sizeof(MesinKata));
-    *command(&res) = new_MesinKata();
     isExiting(&res) = false;
     map(&res) = (Matrix*) malloc(sizeof(Matrix));
     *map(&res) = new_Matrix(r, c);
@@ -22,6 +20,18 @@ Game new_Game(char* configFileName) {
     playersi(&res, 2) = new_Player();
     turn(&res) = 1;
     Game_initConfig2(&res);
+    return res;
+}
+
+Game Game_loadGame(char* fileName) {
+    Game res = new_Game(fileName);
+    turn(&res) = MesinKata_readInt(config(&res));
+    for (int i = 1; i <= N(&res); ++i) {
+        Building b = Building_getBuilding(&res, i);
+        owner(&b) = MesinKata_readInt(config(&res));
+        level(&b) = MesinKata_readInt(config(&res));
+        armyCount(&b) = MesinKata_readInt(config(&res));
+    }
     return res;
 }
 
@@ -58,17 +68,17 @@ void Game_initConfig2(Game* p) {
 
 char* Game_readCommand(Game* p, char* msg) {
     printf(msg);
-    return MesinKata_readString(command(p));
+    return MesinKata_readString(console);
 }
 
 int Game_readCommandInt(Game* p, char* msg, int l, int r) {
     printf(msg);
-    int res = MesinKata_readInt(command(p));
+    int res = MesinKata_readInt(console);
     if (l <= r) {
         while (res < l || res > r) {
             printf("Input is not valid!\n");
             printf(msg);
-            res = MesinKata_readInt(command(p));
+            res = MesinKata_readInt(console);
         }
     }
     return res;
@@ -83,6 +93,8 @@ void Game_playTurn(Game* p) {
     } while (!Act_do(p, command));
     Game_checkFinishGame(p);
     Game_endTurn(p);
+    Game_decrementShieldTurn(p);
+    Game_addArmies(p);
 }
 
 void Game_printMap(Game* p) {
@@ -164,16 +176,23 @@ void Game_endTurn(Game* p) {
 List Game_getAdjencyBuildings(Game* p, int buildingId, boolean enemy) {
     List res = NULL;
     List bIndexList = ListOfList_getAt(&list(buildingGraph(p)), buildingId);
-    int targetOwner = turn(p);
-    if (enemy) {
-        targetOwner = targetOwner%2 + 1;
-    }
     while (bIndexList != NULL) {
-        Building b = Building_getBuilding(p, info(bIndexList));
-        if (owner(&b) == targetOwner) {
-            List_addLast(&res, info(bIndexList));
+        if (info(bIndexList) != buildingId) {
+            Building b = Building_getBuilding(p, info(bIndexList));
+            if (owner(&b) == turn(p) && !enemy || owner(&b) != turn(p) && enemy) {
+                List_addLast(&res, info(bIndexList));
+            }
         }
         bIndexList = next(bIndexList);
     }
     return res;
+}
+
+void Game_addArmies(Game* p) {
+    for (int i = 1; i < N(p); ++i) {
+        Building b = Building_getBuilding(p, i);
+        if (armyCount(&b) < Building_getMaxArmy(type(&b), level(&b)) && !owner(&b)) {
+            armyCount(&b) += Building_getArmyAddition(type(&b), level(&b));
+        }
+    }
 }

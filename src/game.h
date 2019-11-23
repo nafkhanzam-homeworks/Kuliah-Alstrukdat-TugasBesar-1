@@ -10,12 +10,12 @@ typedef struct _Game {
     Graph* buildingGraph;
     ArrayOfPlayer* players;
     MesinKata* config;
-    MesinKata* command;
     int turn, N, ROW, COL;
     boolean isExiting;
 } Game;
 
 Game new_Game();
+Game Game_loadGame(char* fileName);
 void Game_init(Game* p);
 void Game_initConfig(Game* p);
 void Game_initConfig2(Game* p);
@@ -27,10 +27,13 @@ void Game_printTurnInfo(Game* p);
 void Game_checkFinishGame(Game* p);
 void Game_endTurn(Game* p);
 List Game_getAdjencyBuildings(Game* p, int buildingId, boolean enemy);
+void Game_addArmies(Game* p);
+void Game_decrementShieldTurn(Game* p);
 
 // save format
 // <config.txt>
 // //each building
+// <currentTurn>
 // <owner> <level> <armyCount>
 
 #endif // __game_h__

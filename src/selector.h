@@ -22,7 +22,6 @@
 #define criticalHit(P) (P)->criticalHit
 #define shieldTurn(P) (P)->shieldTurn
 #define config(P) (P)->config
-#define command(P) (P)->command
 #define skillQueue(P) (P)->skillQueue
 #define N(P) (P)->N
 #define ROW(P) (P)->ROW
