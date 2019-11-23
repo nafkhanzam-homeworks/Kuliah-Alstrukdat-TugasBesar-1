@@ -92,8 +92,6 @@ void Game_playTurn(Game* p) {
         command = Game_readCommand(p, "ENTER COMMAND: ");
     } while (!Act_do(p, command));
     Game_checkFinishGame(p);
-    Game_endTurn(p);
-    Game_decrementShieldTurn(p);
     Game_addArmies(p);
 }
 
@@ -164,10 +162,24 @@ void Game_checkFinishGame(Game* p) {
 }
 
 void Game_endTurn(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
+    Player pl = Player_getCurrentPlayer(p), en = Player_getEnemyPlayer(p);
+    shieldTurn(&en) = max(0, shieldTurn(&en) - 1);
+    attackUp(&pl) = false;
+    criticalHit(&pl) = false;
+    extraTurn(&pl) = false;
+    boolean allLevel4 = true;
+    for (int i = 1; i < N(p); ++i) {
+        Building b = Building_getBuilding(p, i);
+        hasAttacked(&b) = false;
+        if (level(&b) != 4 && owner(&b) == turn(p)) {
+            allLevel4 = false;
+        }
+    }
+    if (allLevel4) {
+        Player_addSkill(&pl, 6);
+    }
     if (extraTurn(&pl)) {
         printf("Extra turn has been used! You have one more turn!\n");
-        extraTurn(&pl) = false;
     } else {
         turn(p) = turn(p) == 1 ? 2 : 1;
     }
@@ -191,8 +203,19 @@ List Game_getAdjencyBuildings(Game* p, int buildingId, boolean enemy) {
 void Game_addArmies(Game* p) {
     for (int i = 1; i < N(p); ++i) {
         Building b = Building_getBuilding(p, i);
-        if (armyCount(&b) < Building_getMaxArmy(type(&b), level(&b)) && !owner(&b)) {
+        if (armyCount(&b) < Building_getMaxArmy(type(&b), level(&b)) && owner(&b) == turn(p)) {
             armyCount(&b) += Building_getArmyAddition(type(&b), level(&b));
         }
     }
+}
+
+List Game_getAttackableBuildings(Game* p) {
+    List res = NULL;
+    for (int i = 1; i <= N(p); ++i) {
+        Building b = Building_getBuilding(p, i);
+        if (owner(&b) == turn(p) && !hasAttacked(&b)) {
+            List_addLast(&res, i);
+        }
+    }
+    return res;
 }

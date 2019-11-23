@@ -82,11 +82,32 @@ int List_removeLast(List* p) {
     return res;
 }
 
+int List_remove(List* p, int i) {
+    if (List_isEmpty(p)) {
+        return i;
+    }
+    if (info(*p) == i) {
+        *p = next(*p);
+        return i;
+    }
+    return List_remove(&next(*p), i);
+}
+
 int List_getAt(List* p, int i) {
     if (i != 1) {
         return List_getAt(&next(*p), i-1);
     }
     return info(*p);
+}
+
+boolean List_contains(List* p, int i) {
+    if (List_isEmpty(p)) {
+        return false;
+    }
+    if (info(*p) == i) {
+        return true;
+    }
+    return List_contains(&next(*p), i);
 }
 
 ListOfList new_ListOfList(List v) {
@@ -179,16 +200,6 @@ List ListOfList_getAt(ListOfList* p, int i) {
         return ListOfList_getAt(&next(*p), i-1);
     }
     return info(*p);
-}
-
-boolean List_contains(List* p, int i) {
-    if (List_isEmpty(p)) {
-        return false;
-    }
-    if (info(*p) == i) {
-        return true;
-    }
-    return List_contains(&next(*p), i);
 }
 
 ListOfOps new_ListOfOps(Ops v) {

@@ -9,6 +9,7 @@ typedef struct _Building {
     Point* position;
     int armyCount, level, owner;
     char type;
+    boolean hasAttacked;
 } Building;
 
 Building new_Building(char c, int x, int y, int owner);

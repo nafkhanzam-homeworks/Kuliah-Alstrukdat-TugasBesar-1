@@ -7,8 +7,8 @@
 #define position(P) (P)->position
 #define armyCount(P) (P)->armyCount
 #define level(P) (P)->level
-#define shieldCount(P) (P)->shieldCount
 #define owner(P) (P)->owner
+#define hasAttacked(P) (P)->hasAttacked
 #define actStack(P) (P)->actStack
 #define map(P) (P)->map
 #define buildingList(P) (P)->buildingList

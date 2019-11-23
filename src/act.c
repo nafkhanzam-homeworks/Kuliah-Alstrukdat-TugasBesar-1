@@ -18,6 +18,12 @@ Ops new_OpsQueue(void* target, int value, boolean add) {
     return res;
 }
 
+Ops new_OpsList(void* target, int value, boolean add) {
+    Ops res = new_Ops(target, value);
+    type(&res) = add ? 2 : -2;
+    return res;
+}
+
 Act new_Act() {
     Act res;
     list(&res) = NULL;
@@ -32,25 +38,84 @@ boolean Act_isEmpty(Act* p) {
     return ListOfOps_isEmpty(&list(p));
 }
 
+// TODO: DON'T FORGET OPS EACH OPERATION
 void Act_changeTheOwnership(Game* p, Act* act, int buildingId) {
     Building b = Building_getBuilding(p, buildingId);
+    Player from = playersi(p, owner(&b)), to = playersi(p, owner(&b)%2 + 1);
+
+    int fromBLengthBefore = List_getLength(&buildingList(&from));
+    int toBLengthBefore = List_getLength(&buildingList(&to));
+
     Act_addOps(act, new_OpsDefault(&owner(&b))); owner(&b) = owner(&b)%2 + 1;
+    Act_addOps(act, new_OpsList(&buildingList(&from), buildingId, false)); List_remove(&buildingList(&from), buildingId);
+    Act_addOps(act, new_OpsList(&buildingList(&to), buildingId, true)); List_addLast(&buildingList(&to), buildingId);
+
+    if (fromBLengthBefore == 3) { // 3 -> 2
+        Player_addSkill(&from, 2);
+    }
+    if (type(&b) == 'F') {
+        Player_addSkill(&from, 3);
+    }
+    if (toBLengthBefore == 2) { // 2 -> 3
+        Player_addSkill(&to, 4);
+    }
+    if (toBLengthBefore == 9) {
+        Player_addSkill(&from, 7);
+    }
+}
+
+void Act_getTheOwnership(Game* p, Act* act, int buildingId, int toOwner) {
+    Building b = Building_getBuilding(p, buildingId);
+    Player to = playersi(p, toOwner), en = playersi(p, toOwner%2 + 1);
+
+    int toBLengthBefore = List_getLength(&buildingList(&to));
+
+    Act_addOps(act, new_OpsDefault(&owner(&b))); owner(&b) = toOwner;
+    Act_addOps(act, new_OpsList(&buildingList(&to), buildingId, true)); List_addLast(&buildingList(&to), buildingId);
+
+    if (toBLengthBefore == 9) {
+        Player_addSkill(&en, 7);
+    }
 }
 
 // TODO: DON'T FORGET OPS EACH OPERATION
 boolean Act_attack(Game* p, Act* act, int attackerBuildingId, int defenderBuildingId, int val) {
+    Player pl = Player_getCurrentPlayer(p);
+    Player en = Player_getEnemyPlayer(p);
     Building attacker = Building_getBuilding(p, attackerBuildingId);
     Building defender = Building_getBuilding(p, defenderBuildingId);
 
+    Act_addOps(act, new_OpsDefault(&hasAttacked(&attacker))); hasAttacked(&attacker) = true;
+
     // TODO: Still a pure attack, no implementation of shield or attack up or etc
-    Act_addOps(act, new_OpsDefault(&armyCount(&attacker))); armyCount(&attacker) -= val;
-    Act_addOps(act, new_OpsDefault(&armyCount(&defender))); armyCount(&defender) -= val;
+    int attackOutput = val, damageInput = val;
+    boolean countDefend = (owner(&defender) == 0 && Building_isShielded(type(&defender), level(&defender))
+                        || shieldTurn(&en)) && !(attackUp(&pl) || criticalHit(&pl));
+    if (countDefend) {
+        if (damageInput*3/4 < armyCount(&defender)) {
+            damageInput = damageInput - armyCount(&defender)/3;
+        } else {
+            damageInput = damageInput*3/4;
+        }
+    }
+    if (criticalHit(&pl)) {
+        damageInput <<= 2;
+    }
+    Act_addOps(act, new_OpsDefault(&armyCount(&attacker))); armyCount(&attacker) -= attackOutput;
+    Act_addOps(act, new_OpsDefault(&armyCount(&defender))); armyCount(&defender) -= damageInput;
+    if (criticalHit(&pl)) {
+        armyCount(&defender) <<= 2;
+    }
+
     if (armyCount(&defender) <= 0) {
         armyCount(&defender) = -armyCount(&defender);
         Act_changeTheOwnership(p, act, defenderBuildingId);
+        printf("The building has just became yours!\n");
     }
+    return true;
 }
 
+// TODO: DON'T FORGET OPS EACH OPERATION
 boolean Act_levelUp(Game* p, Act* act, int buildingId) {
     Building b = Building_getBuilding(p, buildingId);
     Act_addOps(act, new_OpsDefault(&armyCount(&b))); armyCount(&b) <<= 2;
@@ -121,6 +186,7 @@ boolean Act_save(Game* p, char* fileName) {
     return true;
 }
 
+// TODO: DON'T FORGET OPS EACH OPERATION
 boolean Act_move(Game* p, Act* act, int fromBuildingId, int toBuildingId, int val) {
     Building from = ListOfBuilding_getAt(&buildingList(p), fromBuildingId);
     Building to = ListOfBuilding_getAt(&buildingList(p), fromBuildingId);
@@ -144,9 +210,14 @@ boolean Act_do(Game* p, char* cmd) {
     toLowerCase(cmd);
     Player pl = Player_getCurrentPlayer(p);
     if (compareString(cmd, "attack")) {
-        List list = buildingList(&pl);
+        List list = Game_getAttackableBuildings(p);
 
-        Building_printList(p, list, "Building List:");
+        if (List_isEmpty(&list)) {
+            printf("All of your buildings have been used to attack at least once!\n");
+            return false;
+        }
+
+        Building_printList(p, list, "Building List (haven't been used to attack):");
         int attackId = Game_readCommandInt(p, "Choose building number to use: ", 1, List_getLength(&list));
         attackId = List_getAt(&list, attackId);
 

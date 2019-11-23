@@ -13,6 +13,7 @@ typedef struct _Ops {
 Ops new_Ops(void* target, int value);
 Ops new_OpsDefault(void* target);
 Ops new_OpsQueue(void* target, int value, boolean add);
+Ops new_OpsList(void* target, int value, boolean add);
 
 typedef struct _Act {
     ListOfOps list;
@@ -23,6 +24,7 @@ void Act_addOps(Act* p, Ops v);
 boolean Act_isEmpty(Act* p);
 
 void Act_changeTheOwnership(Game* p, Act* act, int buildingId);
+void Act_getTheOwnership(Game* p, Act* act, int buildingId, int toOwner);
 boolean Act_attack(Game* p, Act* act, int attackerBuildingId, int defenceBuildingId, int val);
 boolean Act_levelUp(Game* p, Act* act, int buildingId);
 boolean Act_skill(Game* p, int skillType);

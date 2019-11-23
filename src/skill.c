@@ -47,11 +47,13 @@ char* Skill_getAcronym(int v) {
 
 
 void Skill_instantUpgrade(Game* p) {
-    // for(int i=1 ; i<=((*p).buildingList).length ; i++){
-    //     if((((*p).buildingList).tab[i]).owner==(*p).turn && (((*p).buildingList).tab[i]).level<4){
-    //         (((*p).buildingList).tab[i]).level+=1;
-    //     }
-    // }
+    Player pl = Player_getCurrentPlayer(p);
+    List list = buildingList(&pl);
+    while (list != NULL) {
+        Building b = Building_getBuilding(p, info(list));
+        ++level(&b);
+        list = next(list);
+    }
 }
 
 void Skill_shield(Game* p) {
@@ -62,6 +64,8 @@ void Skill_shield(Game* p) {
 void Skill_extraTurn(Game* p) {
     Player pl = Player_getCurrentPlayer(p);
     extraTurn(&pl) = true;
+    Player en = Player_getEnemyPlayer(p);
+    Player_addSkill(&en, 5);
 }
 
 void Skill_attackUp(Game* p) {
@@ -75,27 +79,26 @@ void Skill_criticalHit(Game* p) {
 }
 
 void Skill_instantReinforcement(Game* p) {
-    // for(int i=1 ; i<=((*p).buildingList).length ; i++){
-    //     if((((*p).buildingList).tab[i]).owner==(*p).turn){
-    //         armyCount((((*p).buildingList).tab[i]))+=5;
-    //     }
-    // }
+    Player pl = Player_getCurrentPlayer(p);
+    List list = buildingList(&pl);
+    while (list != NULL) {
+        Building b = Building_getBuilding(p, info(list));
+        armyCount(&b) += 5;
+        list = next(list);
+    }
 }
 
 void Skill_barrage(Game* p) {
-    // int own;
-    // if(turn(p)==1){
-    //     own=2;
-    // }
-    // else own=1;
-    // for(int i=1 ; i<=((*p).buildingList).length ; i++){
-    //     if((((*p).buildingList).tab[i]).owner==own){
-    //         armyCount((((*p).buildingList).tab[i]))-=10;
-    //         if(armyCount((((*p).buildingList).tab[i]))==0){
-    //             (((*p).buildingList).tab[i]).owner=0;
-    //         }
-    //     }
-    // }
+    Player en = Player_getEnemyPlayer(p);
+    List list = buildingList(&en);
+    while (list != NULL) {
+        Building b = Building_getBuilding(p, info(list));
+        armyCount(&b) = max(0, armyCount(&b) - 10);
+        if (!armyCount(&b)) {
+            owner(&b) = 0;
+        }
+        list = next(list);
+    }
 }
 
 void Skill_do(Game* p, int v) {

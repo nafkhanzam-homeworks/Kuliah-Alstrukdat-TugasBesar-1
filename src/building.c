@@ -8,6 +8,7 @@ Building new_Building(char c, int x, int y, int owner) {
     level(&res) = 1;
     owner(&res) = owner;
     type(&res) = c;
+    hasAttacked(&res) = false;
     return res;
 }
 

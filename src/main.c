@@ -8,7 +8,7 @@ int main() {
     *console = new_MesinKata();
     Game game;
     // editin biar bagus
-    printf("Welcome to a Turn-Based-Strategy Game by Group no. 7!\n");
+    printf("Game Avatar World War (by Group 7)!\n");
     printf("MENU:\n");
     printf("[1] New Game.\n");
     printf("[2] Load Game.\n");

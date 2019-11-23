@@ -28,7 +28,7 @@ void Game_checkFinishGame(Game* p);
 void Game_endTurn(Game* p);
 List Game_getAdjencyBuildings(Game* p, int buildingId, boolean enemy);
 void Game_addArmies(Game* p);
-void Game_decrementShieldTurn(Game* p);
+List Game_getAttackableBuildings(Game* p);
 
 // save format
 // <config.txt>

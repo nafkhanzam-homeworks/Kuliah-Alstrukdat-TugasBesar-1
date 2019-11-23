@@ -17,6 +17,7 @@ int List_getLength(List* p);
 List List_getSecondLast(List* p);
 int List_removeFirst(List* p);
 int List_removeLast(List* p);
+int List_remove(List* p, int i);
 int List_getAt(List* p, int i);
 boolean List_contains(List* p, int i);
 
