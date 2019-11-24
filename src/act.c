@@ -201,7 +201,7 @@ boolean Act_undo(Game* p) {
                 break;
             }
             case 2: { // menghapus list operasi
-                List_removeFirst((List*)target(ops));
+                List_remove((List*)target(ops), value(ops));
                 break;
             }
         }

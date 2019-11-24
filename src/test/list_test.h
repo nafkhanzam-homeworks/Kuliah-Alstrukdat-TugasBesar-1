@@ -43,6 +43,10 @@ void ListTest_do() {
     asserts("After removed first and last", "[0,1,2]", res);
 
     assert("Length is 3", List_getLength(&list) == 3);
+
+    List_remove(&list, 1);
+    List_toString(&list, res);
+    asserts("After removed 1", "[0,2]", res);
 }
 
 #endif // __list_test_h__

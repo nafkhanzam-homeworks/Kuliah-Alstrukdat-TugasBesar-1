@@ -7,12 +7,11 @@ Player new_Player() {
     /* ALGORITMA */
     buildingList(&res) = NULL; // Menyiapkan list bangunan
 
-
     skillQueue(&res) = (Queue*) malloc(sizeof(Queue)); // Menyiapkan & alokasi queue untuk skill
     *skillQueue(&res) = new_Queue();
-    
+
     Player_addSkill(&res, NULL, 1); // Menambahkan skill awal IU
-    
+
     /* Set status skill yang sedang dipakai */
     criticalHit(&res) = false;
     extraTurn(&res) = false;
