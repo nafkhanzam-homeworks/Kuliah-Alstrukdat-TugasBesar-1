@@ -215,6 +215,7 @@ boolean Act_save(Game* p, char* fileName) {
     FILE* file;
     Building* b;
     List list;
+    Queue* q;
 
     /* ALORITMA */
     file = fopen(fileName, "w");
@@ -234,6 +235,16 @@ boolean Act_save(Game* p, char* fileName) {
     for (int i = 1; i <= N(p); ++i) { // simpan data bangunan (pemilik, level, dan jumlah pasukan)
         b = Building_getBuilding(p, i);
         fprintf(file, "%d %d %d\n", owner(b), level(b), armyCount(b));
+    }
+    for (int i = 1; i <= 2; ++i) {
+        q = skillQueue(&playersi(p, i));
+        fprintf(file, "%d", Queue_getLength(q));
+        list = list(q);
+        while (list != NULL) {
+            fprintf(file, " %d", info(list));
+            list = next(list);
+        }
+        fprintf(file, "\n");
     }
     fclose(file);
     return true;

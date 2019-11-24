@@ -33,3 +33,8 @@ int Queue_peek(Queue* p) {
     /* ALGORITMA */
     return info(list(p));
 }
+
+void Queue_clear(Queue* p) {
+    /* ALGORITMA */
+    list(p) = NULL;
+}

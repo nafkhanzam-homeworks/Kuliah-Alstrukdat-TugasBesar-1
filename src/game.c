@@ -50,15 +50,32 @@ Game new_Game(char* configFileName) {
 Game Game_loadGame(char* fileName) {
     /* KAMUS LOKAL */
     Game res;
+    Player* pl1, * pl2;
+    Building* b;
 
     /* ALGORITMA */
     res = new_Game(fileName); // Inisiasi mulai permainan
+    pl1 = &playersi(&res, 1);
+    pl2 = &playersi(&res, 2);
+    buildingList(pl1) = NULL;
+    buildingList(pl2) = NULL;
     turn(&res) = MesinKata_readInt(config(&res)); // Set status pemain yang mendapat putaran sesuai config
     for (int i = 1; i <= N(&res); ++i) { // Assign status permainan pada tipe data game
-        Building* b = Building_getBuilding(&res, i);
+        b = Building_getBuilding(&res, i);
         owner(b) = MesinKata_readInt(config(&res));
         level(b) = MesinKata_readInt(config(&res));
         armyCount(b) = MesinKata_readInt(config(&res));
+        if (owner(b)) {
+            List_addLast(&buildingList(owner(b) == 1 ? pl1 : pl2), i);
+        }
+    }
+    Queue_clear(skillQueue(pl1));
+    Queue_clear(skillQueue(pl2));
+    for (int i = 1; i <= 2; ++i) {
+        int skillCount = MesinKata_readInt(config(&res));
+        while (skillCount--) {
+            Queue_add(skillQueue(i == 1 ? pl1 : pl2), MesinKata_readInt(config(&res)));
+        }
     }
     return res;
 }

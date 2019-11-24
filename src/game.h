@@ -35,5 +35,7 @@ List Game_getAttackableBuildings(Game* p);
 // [each building]
 // <currentTurn>
 // <owner> <level> <armyCount>
+// <skillCount: player 1> [skillNumbers...]
+// <skillCount: player 2> [skillNumbers...]
 
 #endif // __game_h__

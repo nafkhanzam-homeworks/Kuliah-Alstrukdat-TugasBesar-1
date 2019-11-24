@@ -13,6 +13,7 @@ int Queue_getLength(Queue* p);
 void Queue_add(Queue* p, int v);
 int Queue_remove(Queue* p);
 int Queue_peek(Queue* p);
+void Queue_clear(Queue* p);
 
 #endif // __queue_h__
 
