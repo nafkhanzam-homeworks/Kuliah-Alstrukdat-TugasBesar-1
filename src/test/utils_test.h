@@ -6,9 +6,10 @@
 void UtilsTest_do() {
     assert("compareString abc abcd is false", !compareString("abc", "abcd"));
     assert("compareString abcd abc is false", !compareString("abcd", "abc"));
+    assert("compareString abcd abcf is false", !compareString("abcd", "abcf"));
     char res[4];
-    toLowerCase("ABCD", res);
-    assert("toLowerCase ABCD -> abcd is true", compareString(res, "abcd"));
+    toLowerCase("A23CD", res);
+    assert("toLowerCase A23CD -> a23cd is true", compareString(res, "a23cd"));
 }
 
 #endif // __utils_test_h__

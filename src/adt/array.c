@@ -6,7 +6,7 @@ Array new_Array(int length) {
 
     /* ALGORITMA */
     length(&res) = length;
-    tab(&res) = (int*) malloc((length+1)*sizeof(int)); // alokasi array
+    tab(&res) = (int*) malloc((MAX_LENGTH+1)*sizeof(int)); // alokasi array
     return res;
 }
 
@@ -16,7 +16,7 @@ ArrayOfBuilding new_ArrayOfBuilding(int length) {
 
     /* ALGORITMA */
     length(&res) = length;
-    tab(&res) = (Building*) malloc((length+1)*sizeof(Building)); // alokasi array of bangunan
+    tab(&res) = (Building*) malloc((MAX_LENGTH+1)*sizeof(Building)); // alokasi array of bangunan
     return res;
 }
 
@@ -26,6 +26,6 @@ ArrayOfPlayer new_ArrayOfPlayer(int length) {
 
     /* ALGORITMA */
     length(&res) = length;
-    tab(&res) = (Player*) malloc((length+1)*sizeof(Player)); // alokasi array of pemain
+    tab(&res) = (Player*) malloc((MAX_LENGTH+1)*sizeof(Player)); // alokasi array of pemain
     return res;
 }

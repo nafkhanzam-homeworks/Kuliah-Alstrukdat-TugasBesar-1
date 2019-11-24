@@ -16,12 +16,12 @@ boolean List_isEmpty(List* p) {
     return *p == NULL;
 }
 
-List List_getLast(List* p) {
+List* List_getLast(List* p) {
     /* ALGORITMA */
     if (List_isEmpty(p)) { // basis list kosong
         return NULL;
     } else if (List_isEmpty(&next(*p))) { // basis list satu elemen
-        return *p;
+        return p;
     }
     return List_getLast(&next(*p)); // rekursi
 }
@@ -64,16 +64,6 @@ int List_getLength(List* p) {
     return 1 + List_getLength(&next(*p)); // rekursi
 }
 
-List List_getSecondLast(List* p) {
-    /* ALGORITMA */
-    if (List_isEmpty(p) || List_isEmpty(&next(*p))) { // kondisi list kosong
-        return NULL;
-    } else if (List_isEmpty(&next(next(*p)))) { // basis one elemen
-        return *p;
-    }
-    return List_getLast(&next(*p)); // rekursi
-}
-
 int List_removeFirst(List* p) {
     /* KAMUS LOKAL */
     int res;
@@ -95,14 +85,9 @@ int List_removeLast(List* p) {
     if (List_isEmpty(p)) {
         return *(int*)NULL;
     }
-    List secondLast = List_getSecondLast(p);
-    if (List_isEmpty(&secondLast)) {
-        res = info(*p);
-        *p = NULL;
-        return res;
-    }
-    res = info(next(*p));
-    next(*p) = NULL;
+    List* last = List_getLast(p);
+    res = info(*last);
+    *last = NULL;
     return res;
 }
 

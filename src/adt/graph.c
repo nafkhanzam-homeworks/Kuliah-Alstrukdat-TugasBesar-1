@@ -11,15 +11,14 @@ Graph new_Graph() {
 
 void Graph_add1(Graph* p, int i, int j) {
     /* KAMUS LOKAL */
-    List* list;
+    int k = ListOfList_getLength(&list(p));
 
     /* ALGORITMA */
-    if (ListOfList_getLength(&list(p)) < i) {
-        ListOfList_addLast(&list(p), new_List(j));
-        return;
+    while (k < i) {
+        ListOfList_addLast(&list(p), NULL);
+        ++k;
     }
-    list = ListOfList_getAt(&list(p), i);
-    List_addFirst(list, j);
+    List_addFirst(ListOfList_getAt(&list(p), i), j);
 }
 
 void Graph_add2(Graph* p, int i, int j) {

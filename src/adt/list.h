@@ -10,11 +10,10 @@ typedef struct _List {
 
 List new_List(int v);
 boolean List_isEmpty(List* p);
-List List_getLast(List* p);
+List* List_getLast(List* p);
 void List_addFirst(List* p, int v);
 void List_addLast(List* p, int v);
 int List_getLength(List* p);
-List List_getSecondLast(List* p);
 int List_removeFirst(List* p);
 int List_removeLast(List* p);
 int List_remove(List* p, int i);

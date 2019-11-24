@@ -19,6 +19,7 @@ typedef struct _Matrix Matrix;
 typedef struct _MesinKata MesinKata;
 typedef struct _Point Point;
 typedef struct _StackOfAct StackOfAct;
+typedef struct _Stack Stack;
 typedef struct _Queue Queue;
 
 MesinKata* console;

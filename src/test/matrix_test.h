@@ -32,7 +32,7 @@ void MatrixTest_do() {
     Matrix_toString(&p, res);
     asserts("Changed equals to", "[[128,0,-11,0,0][0,0,0,0,99999]]", res);
 
-    assert("row is 1", p.row == 2);
+    assert("row is 2", p.row == 2);
     assert("col is 5", p.col == 5);
 }
 
