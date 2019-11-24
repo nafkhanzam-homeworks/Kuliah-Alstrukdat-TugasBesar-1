@@ -15,7 +15,7 @@ typedef struct _Building {
 Building new_Building(char c, int x, int y, int owner);
 void Building_printStatus(Building* p, int number);
 void Building_printList(Game* p, List list, char* title);
-Building Building_getBuilding(Game* p, int id);
+Building* Building_getBuilding(Game* p, int id);
 
 int Building_getArmyAddition(char type, int level);
 int Building_getMaxArmy(char type, int level);

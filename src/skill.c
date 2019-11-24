@@ -47,55 +47,55 @@ char* Skill_getAcronym(int v) {
 
 
 void Skill_instantUpgrade(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    List list = buildingList(&pl);
+    Player* pl = Player_getCurrentPlayer(p);
+    List list = buildingList(pl);
     while (list != NULL) {
-        Building b = Building_getBuilding(p, info(list));
-        ++level(&b);
+        Building* b = Building_getBuilding(p, info(list));
+        ++level(b);
         list = next(list);
     }
 }
 
 void Skill_shield(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    shieldTurn(&pl) = 2;
+    Player* pl = Player_getCurrentPlayer(p);
+    shieldTurn(pl) = 2;
 }
 
 void Skill_extraTurn(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    extraTurn(&pl) = true;
-    Player en = Player_getEnemyPlayer(p);
-    Player_addSkill(&en, 5);
+    Player* pl = Player_getCurrentPlayer(p);
+    extraTurn(pl) = true;
+    Player* en = Player_getEnemyPlayer(p);
+    Player_addSkill(en, 5);
 }
 
 void Skill_attackUp(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    attackUp(&pl) = true;
+    Player* pl = Player_getCurrentPlayer(p);
+    attackUp(pl) = true;
 }
 
 void Skill_criticalHit(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    criticalHit(&pl) = true;
+    Player* pl = Player_getCurrentPlayer(p);
+    criticalHit(pl) = true;
 }
 
 void Skill_instantReinforcement(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    List list = buildingList(&pl);
+    Player* pl = Player_getCurrentPlayer(p);
+    List list = buildingList(pl);
     while (list != NULL) {
-        Building b = Building_getBuilding(p, info(list));
-        armyCount(&b) += 5;
+        Building* b = Building_getBuilding(p, info(list));
+        armyCount(b) += 5;
         list = next(list);
     }
 }
 
 void Skill_barrage(Game* p) {
-    Player en = Player_getEnemyPlayer(p);
-    List list = buildingList(&en);
+    Player* en = Player_getEnemyPlayer(p);
+    List list = buildingList(en);
     while (list != NULL) {
-        Building b = Building_getBuilding(p, info(list));
-        armyCount(&b) = max(0, armyCount(&b) - 10);
-        if (!armyCount(&b)) {
-            owner(&b) = 0;
+        Building* b = Building_getBuilding(p, info(list));
+        armyCount(b) = max(0, armyCount(b) - 10);
+        if (!armyCount(b)) {
+            owner(b) = 0;
         }
         list = next(list);
     }

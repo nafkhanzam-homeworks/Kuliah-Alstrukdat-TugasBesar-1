@@ -27,10 +27,10 @@ Game Game_loadGame(char* fileName) {
     Game res = new_Game(fileName);
     turn(&res) = MesinKata_readInt(config(&res));
     for (int i = 1; i <= N(&res); ++i) {
-        Building b = Building_getBuilding(&res, i);
-        owner(&b) = MesinKata_readInt(config(&res));
-        level(&b) = MesinKata_readInt(config(&res));
-        armyCount(&b) = MesinKata_readInt(config(&res));
+        Building* b = Building_getBuilding(&res, i);
+        owner(b) = MesinKata_readInt(config(&res));
+        level(b) = MesinKata_readInt(config(&res));
+        armyCount(b) = MesinKata_readInt(config(&res));
     }
     return res;
 }
@@ -86,12 +86,19 @@ int Game_readCommandInt(Game* p, char* msg, int l, int r) {
 
 void Game_playTurn(Game* p) {
     Game_printMap(p);
-    Game_printTurnInfo(p);
     char* command;
+    char lower[128];
     do {
-        command = Game_readCommand(p, "ENTER COMMAND: ");
-    } while (!Act_do(p, command));
-    Game_checkFinishGame(p);
+        Game_printTurnInfo(p);
+        do {
+            command = Game_readCommand(p, "ENTER COMMAND: ");
+        } while (!Act_do(p, command));
+        Game_checkFinishGame(p);
+        if (isExiting(p)) {
+            return;
+        }
+        toLowerCase(command, lower);
+    } while (!compareString(lower, "end_turn"));
     Game_addArmies(p);
 }
 
@@ -114,16 +121,16 @@ void Game_printMap(Game* p) {
                 printf(" ");
                 continue;
             }
-            Building b = ListOfBuilding_getAt(&buildingList(p), index);
-            switch (owner(&b)) {
+            Building* b = ListOfBuilding_getAt(&buildingList(p), index);
+            switch (owner(b)) {
                 case 0:
-                    printf("%c", type(&b));
+                    printf("%c", type(b));
                     break;
                 case 1:
-                    print_blue(type(&b));
+                    print_blue(type(b));
                     break;
                 case 2:
-                    print_red(type(&b));
+                    print_red(type(b));
                     break;
             }
         }
@@ -141,18 +148,18 @@ void Game_printMap(Game* p) {
 
 void Game_printTurnInfo(Game* p) {
     printf("Player %d\n", turn(p));
-    Player pl = Player_getCurrentPlayer(p);
-    List bIndexList = buildingList(&pl);
-    Building_printList(p, bIndexList, "Building List:");
-    printf("Skill Available: %s\n", Queue_isEmpty(skillQueue(&pl)) ? "-" : Skill_getAcronym(Queue_peek(skillQueue(&pl))));
+    Player* pl = Player_getCurrentPlayer(p);
+    List bIndexList = buildingList(pl);
+    Building_printList(p, bIndexList, "Building* List:");
+    printf("Skill Available: %s\n", Queue_isEmpty(skillQueue(pl)) ? "-" : Skill_getAcronym(Queue_peek(skillQueue(pl))));
 }
 
 void Game_checkFinishGame(Game* p) {
-    Player pl1 = playersi(p, 1), pl2 = playersi(p, 2);
+    Player* pl1 = &playersi(p, 1), * pl2 = &playersi(p, 2);
     int winner = 0;
-    if (List_isEmpty(&buildingList(&pl1))) {
+    if (List_isEmpty(&buildingList(pl1))) {
         winner = 2;
-    } else if (List_isEmpty(&buildingList(&pl2))) {
+    } else if (List_isEmpty(&buildingList(pl2))) {
         winner = 1;
     }
     if (winner) {
@@ -162,23 +169,23 @@ void Game_checkFinishGame(Game* p) {
 }
 
 void Game_endTurn(Game* p) {
-    Player pl = Player_getCurrentPlayer(p), en = Player_getEnemyPlayer(p);
-    shieldTurn(&en) = max(0, shieldTurn(&en) - 1);
-    attackUp(&pl) = false;
-    criticalHit(&pl) = false;
-    extraTurn(&pl) = false;
+    Player* pl = Player_getCurrentPlayer(p), * en = Player_getEnemyPlayer(p);
+    shieldTurn(en) = max(0, shieldTurn(en) - 1);
+    attackUp(pl) = false;
+    criticalHit(pl) = false;
+    extraTurn(pl) = false;
     boolean allLevel4 = true;
     for (int i = 1; i < N(p); ++i) {
-        Building b = Building_getBuilding(p, i);
-        hasAttacked(&b) = false;
-        if (level(&b) != 4 && owner(&b) == turn(p)) {
+        Building* b = Building_getBuilding(p, i);
+        hasAttacked(b) = false;
+        if (level(b) != 4 && owner(b) == turn(p)) {
             allLevel4 = false;
         }
     }
     if (allLevel4) {
-        Player_addSkill(&pl, 6);
+        Player_addSkill(pl, 6);
     }
-    if (extraTurn(&pl)) {
+    if (extraTurn(pl)) {
         printf("Extra turn has been used! You have one more turn!\n");
     } else {
         turn(p) = turn(p) == 1 ? 2 : 1;
@@ -187,11 +194,11 @@ void Game_endTurn(Game* p) {
 
 List Game_getAdjencyBuildings(Game* p, int buildingId, boolean enemy) {
     List res = NULL;
-    List bIndexList = ListOfList_getAt(&list(buildingGraph(p)), buildingId);
+    List bIndexList = *ListOfList_getAt(&list(buildingGraph(p)), buildingId);
     while (bIndexList != NULL) {
         if (info(bIndexList) != buildingId) {
-            Building b = Building_getBuilding(p, info(bIndexList));
-            if (owner(&b) == turn(p) && !enemy || owner(&b) != turn(p) && enemy) {
+            Building* b = Building_getBuilding(p, info(bIndexList));
+            if (owner(b) == turn(p) && !enemy || owner(b) != turn(p) && enemy) {
                 List_addLast(&res, info(bIndexList));
             }
         }
@@ -202,9 +209,9 @@ List Game_getAdjencyBuildings(Game* p, int buildingId, boolean enemy) {
 
 void Game_addArmies(Game* p) {
     for (int i = 1; i < N(p); ++i) {
-        Building b = Building_getBuilding(p, i);
-        if (armyCount(&b) < Building_getMaxArmy(type(&b), level(&b)) && owner(&b) == turn(p)) {
-            armyCount(&b) += Building_getArmyAddition(type(&b), level(&b));
+        Building* b = Building_getBuilding(p, i);
+        if (armyCount(b) < Building_getMaxArmy(type(b), level(b)) && owner(b) == turn(p)) {
+            armyCount(b) += Building_getArmyAddition(type(b), level(b));
         }
     }
 }
@@ -212,8 +219,8 @@ void Game_addArmies(Game* p) {
 List Game_getAttackableBuildings(Game* p) {
     List res = NULL;
     for (int i = 1; i <= N(p); ++i) {
-        Building b = Building_getBuilding(p, i);
-        if (owner(&b) == turn(p) && !hasAttacked(&b)) {
+        Building* b = Building_getBuilding(p, i);
+        if (owner(b) == turn(p) && !hasAttacked(b)) {
             List_addLast(&res, i);
         }
     }

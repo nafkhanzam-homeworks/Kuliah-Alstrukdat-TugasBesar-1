@@ -11,8 +11,8 @@ void Graph_add1(Graph* p, int i, int j) {
         ListOfList_addLast(&list(p), new_List(j));
         return;
     }
-    List list = ListOfList_getAt(&list(p), i);
-    List_addFirst(&list, j);
+    List* list = ListOfList_getAt(&list(p), i);
+    List_addFirst(list, j);
 }
 
 void Graph_add2(Graph* p, int i, int j) {

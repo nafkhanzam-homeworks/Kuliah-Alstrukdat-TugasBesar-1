@@ -13,13 +13,12 @@ Player new_Player() {
     return res;
 }
 
-Player Player_getCurrentPlayer(Game* p) {
-    return playersi(p, turn(p));
+Player* Player_getCurrentPlayer(Game* p) {
+    return &playersi(p, turn(p));
 }
 
-Player Player_getEnemyPlayer(Game* p) {
-    int turn = turn(p) == 1 ? 2 : 1;
-    return playersi(p, turn);
+Player* Player_getEnemyPlayer(Game* p) {
+    return &playersi(p, turn(p)%2 + 1);
 }
 
 void Player_addSkill(Player* p, int type) {

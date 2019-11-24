@@ -40,86 +40,89 @@ boolean Act_isEmpty(Act* p) {
 
 // TODO: DON'T FORGET OPS EACH OPERATION
 void Act_changeTheOwnership(Game* p, Act* act, int buildingId) {
-    Building b = Building_getBuilding(p, buildingId);
-    Player from = playersi(p, owner(&b)), to = playersi(p, owner(&b)%2 + 1);
+    Building* b = Building_getBuilding(p, buildingId);
+    Player* from = &playersi(p, owner(b)), * to = &playersi(p, owner(b)%2 + 1);
 
-    int fromBLengthBefore = List_getLength(&buildingList(&from));
-    int toBLengthBefore = List_getLength(&buildingList(&to));
+    int fromBLengthBefore = List_getLength(&buildingList(from));
+    int toBLengthBefore = List_getLength(&buildingList(to));
 
-    Act_addOps(act, new_OpsDefault(&owner(&b))); owner(&b) = owner(&b)%2 + 1;
-    Act_addOps(act, new_OpsList(&buildingList(&from), buildingId, false)); List_remove(&buildingList(&from), buildingId);
-    Act_addOps(act, new_OpsList(&buildingList(&to), buildingId, true)); List_addLast(&buildingList(&to), buildingId);
+    Act_addOps(act, new_OpsDefault(&owner(b))); owner(b) = owner(b)%2 + 1;
+    Act_addOps(act, new_OpsList(&buildingList(from), buildingId, false)); List_remove(&buildingList(from), buildingId);
+    Act_addOps(act, new_OpsList(&buildingList(to), buildingId, true)); List_addLast(&buildingList(to), buildingId);
 
     if (fromBLengthBefore == 3) { // 3 -> 2
-        Player_addSkill(&from, 2);
+        Player_addSkill(from, 2);
     }
-    if (type(&b) == 'F') {
-        Player_addSkill(&from, 3);
+    if (type(b) == 'F') {
+        Player_addSkill(from, 3);
     }
     if (toBLengthBefore == 2) { // 2 -> 3
-        Player_addSkill(&to, 4);
+        Player_addSkill(to, 4);
     }
     if (toBLengthBefore == 9) {
-        Player_addSkill(&from, 7);
+        Player_addSkill(from, 7);
     }
 }
 
 void Act_getTheOwnership(Game* p, Act* act, int buildingId, int toOwner) {
-    Building b = Building_getBuilding(p, buildingId);
-    Player to = playersi(p, toOwner), en = playersi(p, toOwner%2 + 1);
+    Building* b = Building_getBuilding(p, buildingId);
+    Player* to = &playersi(p, toOwner), * en = &playersi(p, toOwner%2 + 1);
 
-    int toBLengthBefore = List_getLength(&buildingList(&to));
+    int toBLengthBefore = List_getLength(&buildingList(to));
 
-    Act_addOps(act, new_OpsDefault(&owner(&b))); owner(&b) = toOwner;
-    Act_addOps(act, new_OpsList(&buildingList(&to), buildingId, true)); List_addLast(&buildingList(&to), buildingId);
+    Act_addOps(act, new_OpsDefault(&owner(b))); owner(b) = toOwner;
+    Act_addOps(act, new_OpsList(&buildingList(to), buildingId, true)); List_addLast(&buildingList(to), buildingId);
 
     if (toBLengthBefore == 9) {
-        Player_addSkill(&en, 7);
+        Player_addSkill(en, 7);
     }
 }
 
 // TODO: DON'T FORGET OPS EACH OPERATION
 boolean Act_attack(Game* p, Act* act, int attackerBuildingId, int defenderBuildingId, int val) {
-    Player pl = Player_getCurrentPlayer(p);
-    Player en = Player_getEnemyPlayer(p);
-    Building attacker = Building_getBuilding(p, attackerBuildingId);
-    Building defender = Building_getBuilding(p, defenderBuildingId);
+    Player* pl = Player_getCurrentPlayer(p);
+    Player* en = Player_getEnemyPlayer(p);
+    Building* attacker = Building_getBuilding(p, attackerBuildingId);
+    Building* defender = Building_getBuilding(p, defenderBuildingId);
 
-    Act_addOps(act, new_OpsDefault(&hasAttacked(&attacker))); hasAttacked(&attacker) = true;
+    Act_addOps(act, new_OpsDefault(&hasAttacked(attacker))); hasAttacked(attacker) = true;
 
     // TODO: Still a pure attack, no implementation of shield or attack up or etc
     int attackOutput = val, damageInput = val;
-    boolean countDefend = (owner(&defender) == 0 && Building_isShielded(type(&defender), level(&defender))
-                        || shieldTurn(&en)) && !(attackUp(&pl) || criticalHit(&pl));
-    if (countDefend) {
-        if (damageInput*3/4 < armyCount(&defender)) {
-            damageInput = damageInput - armyCount(&defender)/3;
+    if ((!owner(defender) && Building_isShielded(type(defender), level(defender))
+                        || shieldTurn(en)) && !(attackUp(pl) || criticalHit(pl))) {
+        if (damageInput*3/4 < armyCount(defender)) {
+            damageInput = damageInput - armyCount(defender)/3;
         } else {
             damageInput = damageInput*3/4;
         }
     }
-    if (criticalHit(&pl)) {
-        damageInput <<= 2;
+    if (criticalHit(pl)) {
+        damageInput <<= 1;
     }
-    Act_addOps(act, new_OpsDefault(&armyCount(&attacker))); armyCount(&attacker) -= attackOutput;
-    Act_addOps(act, new_OpsDefault(&armyCount(&defender))); armyCount(&defender) -= damageInput;
-    if (criticalHit(&pl)) {
-        armyCount(&defender) <<= 2;
+    Act_addOps(act, new_OpsDefault(&armyCount(attacker))); armyCount(attacker) -= attackOutput;
+    Act_addOps(act, new_OpsDefault(&armyCount(defender))); armyCount(defender) -= damageInput;
+    if (criticalHit(pl)) {
+        armyCount(defender) >>= 1;
     }
 
-    if (armyCount(&defender) <= 0) {
-        armyCount(&defender) = -armyCount(&defender);
-        Act_changeTheOwnership(p, act, defenderBuildingId);
-        printf("The building has just became yours!\n");
+    if (armyCount(defender) <= 0) {
+        armyCount(defender) *= -1;
+        if (owner(defender)) {
+            Act_changeTheOwnership(p, act, defenderBuildingId);
+        } else {
+            Act_getTheOwnership(p, act, defenderBuildingId, turn(p));
+        }
+        printf("The building* has just became yours!\n");
     }
     return true;
 }
 
 // TODO: DON'T FORGET OPS EACH OPERATION
 boolean Act_levelUp(Game* p, Act* act, int buildingId) {
-    Building b = Building_getBuilding(p, buildingId);
-    Act_addOps(act, new_OpsDefault(&armyCount(&b))); armyCount(&b) <<= 2;
-    Act_addOps(act, new_OpsDefault(&level(&b))); ++level(&b);
+    Building* b = Building_getBuilding(p, buildingId);
+    Act_addOps(act, new_OpsDefault(&armyCount(b))); armyCount(b) -= Building_getMaxArmy(type(b), level(b))/2;
+    Act_addOps(act, new_OpsDefault(&level(b))); ++level(b);
     return true;
 }
 
@@ -168,19 +171,19 @@ boolean Act_save(Game* p, char* fileName) {
     fprintf(file, "%d %d\n", ROW(p), COL(p));
     fprintf(file, "%d\n", N(p));
     for (int i = 1; i <= N(p); ++i) {
-        Building b = Building_getBuilding(p, i);
-        fprintf(file, "%c %d %d\n", type(&b), x(position(&b)), y(position(&b)));
+        Building* b = Building_getBuilding(p, i);
+        fprintf(file, "%c %d %d\n", type(b), x(position(b)), y(position(b)));
     }
     for (int i = 1; i <= N(p); ++i) {
-        List list = ListOfList_getAt(&list(buildingGraph(p)), i);
+        List list = *ListOfList_getAt(&list(buildingGraph(p)), i);
         for (int j = 1; j <= N(p); ++j) {
             fprintf(file, "%d%s", List_contains(&list, j) ? 1 : 0, j == N(p) ? "\n" : " ");
         }
     }
     fprintf(file, "%d\n", turn(p));
     for (int i = 1; i <= N(p); ++i) {
-        Building b = Building_getBuilding(p, i);
-        fprintf(file, "%d %d %d\n", owner(&b), level(&b), armyCount(&b));
+        Building* b = Building_getBuilding(p, i);
+        fprintf(file, "%d %d %d\n", owner(b), level(b), armyCount(b));
     }
     fclose(file);
     return true;
@@ -188,14 +191,14 @@ boolean Act_save(Game* p, char* fileName) {
 
 // TODO: DON'T FORGET OPS EACH OPERATION
 boolean Act_move(Game* p, Act* act, int fromBuildingId, int toBuildingId, int val) {
-    Building from = ListOfBuilding_getAt(&buildingList(p), fromBuildingId);
-    Building to = ListOfBuilding_getAt(&buildingList(p), fromBuildingId);
+    Building* from = ListOfBuilding_getAt(&buildingList(p), fromBuildingId);
+    Building* to = ListOfBuilding_getAt(&buildingList(p), fromBuildingId);
 
-    Act_addOps(act, new_OpsDefault(&armyCount(&from)));
-    armyCount(&from) -= val;
+    Act_addOps(act, new_OpsDefault(&armyCount(from)));
+    armyCount(from) -= val;
 
-    Act_addOps(act, new_OpsDefault(&armyCount(&to)));
-    armyCount(&to) += val;
+    Act_addOps(act, new_OpsDefault(&armyCount(to)));
+    armyCount(to) += val;
 
     return true;
 }
@@ -204,11 +207,12 @@ boolean Act_exit(Game* p) {
     return isExiting(p) = true;
 }
 
-boolean Act_do(Game* p, char* cmd) {
+boolean Act_do(Game* p, char* pcmd) {
     boolean success = true;
     Act act = new_Act();
-    toLowerCase(cmd);
-    Player pl = Player_getCurrentPlayer(p);
+    char cmd[128];
+    toLowerCase(pcmd, cmd);
+    Player* pl = Player_getCurrentPlayer(p);
     if (compareString(cmd, "attack")) {
         List list = Game_getAttackableBuildings(p);
 
@@ -217,8 +221,8 @@ boolean Act_do(Game* p, char* cmd) {
             return false;
         }
 
-        Building_printList(p, list, "Building List (haven't been used to attack):");
-        int attackId = Game_readCommandInt(p, "Choose building number to use: ", 1, List_getLength(&list));
+        Building_printList(p, list, "Building* List (haven't been used to attack):");
+        int attackId = Game_readCommandInt(p, "Choose building* number to use: ", 1, List_getLength(&list));
         attackId = List_getAt(&list, attackId);
 
         List bIndexList = Game_getAdjencyBuildings(p, attackId, true);
@@ -226,35 +230,40 @@ boolean Act_do(Game* p, char* cmd) {
             printf("You don't have any adjency enemy building!\n");
             return false;
         }
-        Building_printList(p, bIndexList, "Building List:");
+        Building_printList(p, bIndexList, "Building* List:");
 
-        int defenceId = Game_readCommandInt(p, "Choose building number to attack: ", 1, List_getLength(&bIndexList));
+        int defenceId = Game_readCommandInt(p, "Choose building* number to attack: ", 1, List_getLength(&bIndexList));
         defenceId = List_getAt(&bIndexList, defenceId);
 
         int val = Game_readCommandInt(p, "Input the amount of army to attack: ", 0, -1);
-        Building attacker = ListOfBuilding_getAt(&buildingList(p), attackId);
-        while (val < 0 || val > armyCount(&attacker)) {
-            printf(val < 0 ? "Army count have to be above zero!" : "You only have %d army in that building!\n", armyCount(&attacker));
+        Building* attacker = ListOfBuilding_getAt(&buildingList(p), attackId);
+        while (val < 0 || val > armyCount(attacker)) {
+            printf(val < 0 ? "Army count have to be above zero!" : "You only have %d army in that building!\n", armyCount(attacker));
             val = Game_readCommandInt(p, "Input the amount of army to attack: ", 0, -1);
         }
 
         success = Act_attack(p, &act, attackId, defenceId, val);
     } else if (compareString(cmd, "level_up")) {
-        List list = buildingList(&pl);
+        List list = buildingList(pl);
 
-        Building_printList(p, list, "Building List:");
-        int buildingId = Game_readCommandInt(p, "Choose building number to level up: ", 1, List_getLength(&list));
+        Building_printList(p, list, "Building* List:");
+        int buildingId = Game_readCommandInt(p, "Choose building* number to level up: ", 1, List_getLength(&list));
         buildingId = List_getAt(&list, buildingId);
 
-        Building b = Building_getBuilding(p, buildingId);
-        if (level(&b) >= MAX_LEVEL) {
-            printf("That building is already at max level!\n");
+        Building* b = Building_getBuilding(p, buildingId);
+        if (level(b) >= MAX_LEVEL) {
+            printf("That building* is already at max level!\n");
+            return false;
+        }
+        int minArmy = Building_getMaxArmy(type(b), level(b))/2;
+        if (armyCount(b) < minArmy) {
+            printf("You need %d army to level up!\n", minArmy);
             return false;
         }
 
         success = Act_levelUp(p, &act, buildingId);
     } else if (compareString(cmd, "skill")) {
-        Queue* skillQueue = skillQueue(&pl);
+        Queue* skillQueue = skillQueue(pl);
         if (Queue_isEmpty(skillQueue)) {
             printf("You don't have any skill!");
             return true;
@@ -268,10 +277,10 @@ boolean Act_do(Game* p, char* cmd) {
         char* fileName = Game_readCommand(p, "Input filename (without space): ");
         success = Act_save(p, fileName);
     } else if (compareString(cmd, "move")) {
-        List list = buildingList(&pl);
+        List list = buildingList(pl);
 
-        Building_printList(p, list, "Building List:");
-        int fromId = Game_readCommandInt(p, "Choose building number to move from: ", 1, List_getLength(&list));
+        Building_printList(p, list, "Building* List:");
+        int fromId = Game_readCommandInt(p, "Choose building* number to move from: ", 1, List_getLength(&list));
         fromId = List_getAt(&list, fromId);
 
         List bIndexList = Game_getAdjencyBuildings(p, fromId, false);
@@ -279,15 +288,15 @@ boolean Act_do(Game* p, char* cmd) {
             printf("You don't have any adjency building!\n");
             return false;
         }
-        Building_printList(p, bIndexList, "Building List:");
+        Building_printList(p, bIndexList, "Building* List:");
 
-        int toId = Game_readCommandInt(p, "Choose building number to move to: ", 1, List_getLength(&bIndexList));
+        int toId = Game_readCommandInt(p, "Choose building* number to move to: ", 1, List_getLength(&bIndexList));
         toId = List_getAt(&bIndexList, toId);
 
-        Building from = ListOfBuilding_getAt(&buildingList(p), fromId);
+        Building* from = ListOfBuilding_getAt(&buildingList(p), fromId);
         int val = Game_readCommandInt(p, "Input the amount of army to move: ", 0, -1);
-        while (val < 0 || val > armyCount(&from)) {
-            printf(val < 0 ? "Army count have to be above zero!" : "You only have %d army in that building!\n", armyCount(&from));
+        while (val < 0 || val > armyCount(from)) {
+            printf(val < 0 ? "Army count have to be above zero!" : "You only have %d army in that building!\n", armyCount(from));
             val = Game_readCommandInt(p, "Input the amount of army to attack: ", 0, -1);
         }
 
@@ -302,8 +311,8 @@ boolean Act_do(Game* p, char* cmd) {
     if (!Act_isEmpty(&act)) {
         StackOfAct_push(actStack(p), act);
     }
-    if (success) {
-        printf("The command has been done successfully!\n");
-    }
+    // if (success) {
+    //     printf("The command has been done successfully!\n");
+    // }
     return success;
 }

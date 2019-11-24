@@ -16,8 +16,8 @@ void Building_printList(Game* p, List list, char* title) {
     int i = 0;
     printf("%s\n", title);
     while (list != NULL) {
-        Building b = ListOfBuilding_getAt(&buildingList(p), info(list));
-        Building_printStatus(&b, ++i);
+        Building* b = ListOfBuilding_getAt(&buildingList(p), info(list));
+        Building_printStatus(b, ++i);
         list = next(list);
     }
 }
@@ -70,6 +70,7 @@ int Building_getStartingArmy(char type) {
     return -1;
 }
 
-Building Building_getBuilding(Game* p, int id) {
+Building* Building_getBuilding(Game* p, int id) {
     return ListOfBuilding_getAt(&buildingList(p), id);
 }
+

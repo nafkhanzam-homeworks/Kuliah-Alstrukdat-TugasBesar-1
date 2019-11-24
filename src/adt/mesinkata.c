@@ -40,6 +40,9 @@ char* MesinKata_readString(MesinKata* p) {
         res[i++] = readChar(p);
         MesinKata_adv(p);
     }
+    while (readChar(p) != ' ' && readChar(p) != '\n') {
+        MesinKata_adv(p);
+    }
     res[i] = 0;
     return res;
 }
@@ -49,6 +52,9 @@ int MesinKata_readInt(MesinKata* p) {
     int res = 0;
     while (readChar(p) >= '0' && readChar(p) <= '9') {
         res = res*10 + readChar(p) - '0';
+        MesinKata_adv(p);
+    }
+    while (!MesinKata_isNonReadableCharacter(p)) {
         MesinKata_adv(p);
     }
     return res;

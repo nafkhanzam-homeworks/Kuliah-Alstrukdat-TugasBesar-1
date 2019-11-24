@@ -192,14 +192,14 @@ List ListOfList_removeLast(ListOfList* p) {
     return res;
 }
 
-List ListOfList_getAt(ListOfList* p, int i) {
+List* ListOfList_getAt(ListOfList* p, int i) {
     if (p == NULL) {
         return NULL;
     }
     if (i != 1) {
         return ListOfList_getAt(&next(*p), i-1);
     }
-    return info(*p);
+    return &info(*p);
 }
 
 ListOfOps new_ListOfOps(Ops v) {
@@ -451,9 +451,9 @@ Building ListOfBuilding_removeLast(ListOfBuilding* p) {
     return *res;
 }
 
-Building ListOfBuilding_getAt(ListOfBuilding* p, int i) {
+Building* ListOfBuilding_getAt(ListOfBuilding* p, int i) {
     if (i != 1) {
         return ListOfBuilding_getAt(&next(*p), i-1);
     }
-    return *info(*p);
+    return info(*p);
 }

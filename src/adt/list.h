@@ -35,7 +35,7 @@ int ListOfList_getLength(ListOfList* p);
 ListOfList ListOfList_getSecondLast(ListOfList* p);
 List ListOfList_removeFirst(ListOfList* p);
 List ListOfList_removeLast(ListOfList* p);
-List ListOfList_getAt(ListOfList* p, int i);
+List* ListOfList_getAt(ListOfList* p, int i);
 
 typedef struct _ListOfOps {
     Ops* info;
@@ -81,6 +81,6 @@ int ListOfBuilding_getLength(ListOfBuilding* p);
 ListOfBuilding ListOfBuilding_getSecondLast(ListOfBuilding* p);
 Building ListOfBuilding_removeFirst(ListOfBuilding* p);
 Building ListOfBuilding_removeLast(ListOfBuilding* p);
-Building ListOfBuilding_getAt(ListOfBuilding* p, int i);
+Building* ListOfBuilding_getAt(ListOfBuilding* p, int i);
 
 #endif // __list_h__

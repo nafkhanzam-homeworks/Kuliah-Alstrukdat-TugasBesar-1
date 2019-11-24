@@ -4,13 +4,13 @@
 #include <stdio.h>
 #include "test.h"
 #include "array_test.h"
-#include "graph_test.h"
+#include "utils_test.h"
 
 void doTheTests() {
+    printf("Utils Tests:\n");
+    UtilsTest_do();
     printf("Array Tests:\n");
     ArrayTest_do();
-    printf("Graph Tests:\n");
-    GraphTest_do();
 }
 
 void main() {

@@ -2,17 +2,38 @@
 
 boolean compareString(char* a, char* b) {
     int i = 0;
-    while (a[i] != 0 && b != 0 && a[i] == b[i]) {
+    while (a[i] && b[i] && a[i] == b[i]) {
         ++i;
     }
     return a[i] == b[i];
 }
 
-char* toLowerCase(char* p) {
+void append(char* a, char* b) {
     int i = 0;
-    while (p[i] != 0) {
-        if ('A' <= p[i] && p[i] <= 'Z') {
-            p[i] += 'a'-'A';
+    while (a[i]) ++i;
+    int j = i;
+    while (b[i-j]) {
+        a[i] = b[i-j];
+        ++i;
+    }
+    a[i] = 0;
+}
+
+void copyString(char* a, char* b) {
+    int i = 0;
+    while (a[i]) {
+        b[i] = a[i];
+        ++i;
+    }
+    b[i] = 0;
+}
+
+void toLowerCase(char* p, char* res) {
+    copyString(p, res);
+    int i = 0;
+    while (res[i]) {
+        if ('A' <= res[i] && res[i] <= 'Z') {
+            res[i] += 'a'-'A';
         }
         ++i;
     }

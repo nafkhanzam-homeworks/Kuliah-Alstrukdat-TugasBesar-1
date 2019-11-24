@@ -6,17 +6,6 @@
 
 int total = 0, correct = 0;
 
-void append(char* a, char* b) {
-    int i = 0;
-    while (a[i] != 0) ++i;
-    int j = i;
-    while (b[i-j] != 0) {
-        a[i] = b[i-j];
-        ++i;
-    }
-    a[i] = 0;
-}
-
 int asserts(char* msg, char* a, char* b) {
     boolean res = compareString(a, b);
     printf("%s%d. %s - %s%s%s%s\n", res ? GREEN : RED, ++total, res ? "PASSED" : "FAILED", msg, " ", a, NORMAL);
