@@ -81,5 +81,5 @@ boolean MesinKata_isNonReadableCharacter(MesinKata* p) {
     return!('0' <= readChar(p) && readChar(p) <= '9' ||
             'a' <= readChar(p) && readChar(p) <= 'z' ||
             'A' <= readChar(p) && readChar(p) <= 'Z' ||
-            readChar(p) == '_');
+            readChar(p) == '_' || readChar(p) == '.');
 }
