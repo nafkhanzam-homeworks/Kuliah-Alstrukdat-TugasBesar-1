@@ -33,8 +33,8 @@ List Game_getMovableBuildings(Game* p);
 
 // save format
 // <config.txt>
-// [each building]
 // <currentTurn>
+// [each building]
 // <owner> <level> <armyCount>
 // <skillCount: player 1> [skillNumbers...]
 // <skillCount: player 2> [skillNumbers...]
