@@ -263,7 +263,7 @@ boolean Act_move(Game* p, Act* act, int fromBuildingId, int toBuildingId, int va
 
     /* ALGORITMA */
     from = ListOfBuilding_getAt(&buildingList(p), fromBuildingId);
-    to = ListOfBuilding_getAt(&buildingList(p), fromBuildingId);
+    to = ListOfBuilding_getAt(&buildingList(p), toBuildingId);
 
     // pasukan bangunan asal berkurang
     Act_addOps(act, new_OpsDefault(&armyCount(from)));
