@@ -1,7 +1,10 @@
 #include "utils.h"
 
 boolean compareString(char* a, char* b) {
+    /* KAMUS LOKAL */
     int i = 0;
+
+    /* ALGORITMA */
     while (a[i] && b[i] && a[i] == b[i]) {
         ++i;
     }
@@ -9,7 +12,10 @@ boolean compareString(char* a, char* b) {
 }
 
 void append(char* a, char* b) {
+    /* KAMUS LOKAL */
     int i = 0;
+
+    /* ALGORITMA */
     while (a[i]) ++i;
     int j = i;
     while (b[i-j]) {
@@ -20,7 +26,10 @@ void append(char* a, char* b) {
 }
 
 void copyString(char* a, char* b) {
+    /* KAMUS LOKAL */
     int i = 0;
+
+    /* ALGORITMA */
     while (a[i]) {
         b[i] = a[i];
         ++i;
@@ -29,8 +38,11 @@ void copyString(char* a, char* b) {
 }
 
 void toLowerCase(char* p, char* res) {
-    copyString(p, res);
+    /* KAMUS LOKAL */
     int i = 0;
+
+    /* ALGORITMA */
+    copyString(p, res);
     while (res[i]) {
         if ('A' <= res[i] && res[i] <= 'Z') {
             res[i] += 'a'-'A';
@@ -40,9 +52,11 @@ void toLowerCase(char* p, char* res) {
 }
 
 int max(int a, int b) {
+    /* ALGORITMA */
     return a > b ? a : b;
 }
 
 int min(int a, int b) {
+    /* ALGORITMA */
     return a < b ? a : b;
 }
