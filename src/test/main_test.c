@@ -5,12 +5,15 @@
 #include "test.h"
 #include "array_test.h"
 #include "utils_test.h"
+#include "matrix_test.h"
 
 void doTheTests() {
     printf(YELLOW);printf("Utils Tests:\n");printf(NORMAL);
     UtilsTest_do();
     printf(YELLOW);printf("Array Tests:\n");printf(NORMAL);
     ArrayTest_do();
+    printf(YELLOW);printf("Matrix Tests:\n");printf(NORMAL);
+    MatrixTest_do();
 }
 
 void main() {

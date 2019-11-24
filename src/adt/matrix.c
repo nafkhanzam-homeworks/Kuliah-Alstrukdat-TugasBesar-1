@@ -10,10 +10,10 @@ Matrix new_Matrix(int r, int c) {
 
     /* Alokasi array of array */
     array(&res) = (Array*) malloc(sizeof(Array));
-    *array(&res) = new_Array(r*c+1);
+    *array(&res) = new_Array(r*c);
 
     /* Set setiap elemen menjadi NULL */
-    for (int i = 0; i <= r*c; ++i) {
+    for (int i = 1; i <= r*c; ++i) {
         tabi(array(&res), i) = 0;
     }
     return res;

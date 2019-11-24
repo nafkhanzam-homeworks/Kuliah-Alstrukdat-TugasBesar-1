@@ -134,6 +134,7 @@ void Skill_barrage(Game* p) {
         armyCount(b) = max(0, armyCount(b) - 10);
         if (!armyCount(b)) {
             owner(b) = 0;
+            level(b) = 1;
         }
         list = next(list);
     }

@@ -98,7 +98,7 @@ void Game_initConfig2(Game* p) {
     /* KAMUS LOKAL */
     MesinKata* reader;
     char buildingType;
-    int x,y,isConnected;
+    int x, y, isConnected;
 
     /* ALGORITMA */
     reader = config(p); // Inisiasi konfigurasi
@@ -158,8 +158,8 @@ void Game_playTurn(Game* p) {
     char lower[128];
 
     /* ALGORITMA */
-    Game_printMap(p);
     do {
+        Game_printMap(p);
         Game_printTurnInfo(p);
         do { // Membaca COMMAND
             command = Game_readCommand(p, "ENTER COMMAND: ");
@@ -269,7 +269,7 @@ void Game_endTurn(Game* p) {
     attackUp(pl) = false;
     criticalHit(pl) = false;
     extraTurn(pl) = false;
-    
+
     // Cek level pada tiap bangunan
     allLevel4 = true;
     for (int i = 1; i < N(p); ++i) {
@@ -285,8 +285,9 @@ void Game_endTurn(Game* p) {
     if (extraTurn(pl)) {
         printf("Extra turn has been used! You have one more turn!\n");
     } else {
-        turn(p) = turn(p) == 1 ? 2 : 1;
+        turn(p) = enemyIndex(turn(p));
     }
+    StackOfAct_clear(actStack(p)); // Hapus semua aksi yang disimpan, karena tidak bisa undo setelah end_turn
 }
 
 List Game_getAdjencyBuildings(Game* p, int buildingId, boolean enemy) {

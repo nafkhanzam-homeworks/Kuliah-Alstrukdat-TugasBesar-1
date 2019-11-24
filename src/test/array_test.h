@@ -7,11 +7,11 @@ void Array_toString(Array* p, char* res) {
     char str[128];
     res[0] = 0;
     append(res, "[");
-    if (p->length > 0) {
-        sprintf(str, "%d", p->tab[0]);
+    if (length(p) > 0) {
+        sprintf(str, "%d", tabi(p, 0));
         append(res, str);
-        for (int i = 1; i < p->length; ++i) {
-            sprintf(str, ",%d", p->tab[i]);
+        for (int i = 1; i < length(p); ++i) {
+            sprintf(str, ",%d", tabi(p, i));
             append(res, str);
         }
     }

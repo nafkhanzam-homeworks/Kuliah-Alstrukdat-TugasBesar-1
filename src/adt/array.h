@@ -23,5 +23,6 @@ typedef struct _ArrayOfPlayer {
 } ArrayOfPlayer;
 
 ArrayOfPlayer new_ArrayOfPlayer(int length);
+/**/
 
 #endif // __array_h__

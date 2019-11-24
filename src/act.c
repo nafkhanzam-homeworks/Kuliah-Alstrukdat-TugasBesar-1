@@ -22,7 +22,7 @@ Ops new_OpsQueue(void* target, int value, boolean add) {
 
     /* ALGORITMA */
     res = new_Ops(target, value);
-    type(&res) = add ? 1 : -1; 
+    type(&res) = add ? 1 : -1;
     return res;
 }
 
@@ -71,6 +71,7 @@ void Act_changeTheOwnership(Game* p, Act* act, int buildingId) {
     toBLengthBefore = List_getLength(&buildingList(to));
 
     Act_addOps(act, new_OpsDefault(&owner(b))); owner(b) = enemyIndex(owner(b)); // Ganti owner bangunan
+    Act_addOps(act, new_OpsDefault(&level(b))); level(b) = 1; // reset level menjadi level 1
     Act_addOps(act, new_OpsList(&buildingList(from), buildingId, false)); List_remove(&buildingList(from), buildingId); // hapus bangunan di list bangunan owner
     Act_addOps(act, new_OpsList(&buildingList(to), buildingId, true)); List_addLast(&buildingList(to), buildingId); // tambahkan bangunan pada list owner baru
 
@@ -96,8 +97,9 @@ void Act_getTheOwnership(Game* p, Act* act, int buildingId, int toOwner) {
 
     int toBLengthBefore = List_getLength(&buildingList(to));
 
-    Act_addOps(act, new_OpsDefault(&owner(b))); owner(b) = toOwner;
-    Act_addOps(act, new_OpsList(&buildingList(to), buildingId, true)); List_addLast(&buildingList(to), buildingId);
+    Act_addOps(act, new_OpsDefault(&owner(b))); owner(b) = toOwner; // Ganti owner bangunan
+    Act_addOps(act, new_OpsDefault(&level(b))); level(b) = 1; // reset level menjadi level 1
+    Act_addOps(act, new_OpsList(&buildingList(to), buildingId, true)); List_addLast(&buildingList(to), buildingId); // tambahkan bangunan pada list owner baru
 
     if (toBLengthBefore == 9) {
         Player_addSkill(en, 7);
@@ -120,9 +122,10 @@ boolean Act_attack(Game* p, Act* act, int attackerBuildingId, int defenderBuildi
     attackOutput = val;
     damageInput = val;
     // cek kondisi pertahanan lawan
-    countDefend = (owner(defender) == 0 && Building_isShielded(type(defender), level(defender))
-                        || shieldTurn(en)) && !(attackUp(pl) || criticalHit(pl));
-    if (countDefend) {
+    if ((!owner(defender) && Building_isShielded(type(defender), level(defender))
+                || shieldTurn(en))
+            &&
+                !(attackUp(pl) || criticalHit(pl))) {
         if (damageInput*3/4 < armyCount(defender)) {
             damageInput = damageInput - armyCount(defender)/3;
         } else {
@@ -132,6 +135,7 @@ boolean Act_attack(Game* p, Act* act, int attackerBuildingId, int defenderBuildi
     if (criticalHit(pl)) {
         damageInput <<= 1;
     }
+
     Act_addOps(act, new_OpsDefault(&armyCount(attacker))); armyCount(attacker) -= attackOutput;
     Act_addOps(act, new_OpsDefault(&armyCount(defender))); armyCount(defender) -= damageInput;
     if (criticalHit(pl)) {
@@ -188,8 +192,9 @@ boolean Act_undo(Game* p) {
                 Queue_add((Queue*)target(ops), value(ops));
                 break;
             }
-            case 0: { 
+            case 0: {
                 *((int*)target(ops)) = value(ops);
+                break;
             }
             case 1: { // menghapus queue operasi
                 Queue_remove((Queue*)target(ops));
@@ -202,6 +207,7 @@ boolean Act_undo(Game* p) {
         }
         list = next(list);
     }
+    return true;
 }
 
 boolean Act_endTurn(Game* p) {
@@ -363,6 +369,10 @@ boolean Act_do(Game* p, char* pcmd) {
         }
         success = Act_skill(p, Queue_remove(skillQueue));
     } else if (compareString(cmd, "undo")) {
+        if (StackOfAct_isEmpty(actStack(p))) {
+            printf("You can't undo at this state!\n");
+            return false;
+        }
         success = Act_undo(p);
     } else if (compareString(cmd, "end_turn")) {
         success = Act_endTurn(p);
@@ -372,7 +382,7 @@ boolean Act_do(Game* p, char* pcmd) {
     } else if (compareString(cmd, "move")) {
         List list = buildingList(pl);
 
-        Building_printList(p, list, "Building* List:");
+        Building_printList(p, list, "Building List:");
         int fromId = Game_readCommandInt(p, "Choose building* number to move from: ", 1, List_getLength(&list));
         fromId = List_getAt(&list, fromId);
 
@@ -381,7 +391,7 @@ boolean Act_do(Game* p, char* pcmd) {
             printf("You don't have any adjency building!\n");
             return false;
         }
-        Building_printList(p, bIndexList, "Building* List:");
+        Building_printList(p, bIndexList, "Building List:");
 
         int toId = Game_readCommandInt(p, "Choose building* number to move to: ", 1, List_getLength(&bIndexList));
         toId = List_getAt(&bIndexList, toId);
