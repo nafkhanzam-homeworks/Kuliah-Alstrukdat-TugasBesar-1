@@ -1,20 +1,41 @@
 #include "building.h"
 
 Building new_Building(char c, int x, int y, int owner) {
+    /* KAMUS LOKAL */
     Building res;
+    
+    /* ALGORITMA */
+
+    // Alokasi array of point sebagai posisi
     position(&res) = (Point*) malloc(sizeof(Point));
     *position(&res) = new_Point(x, y);
+
+    // Set jumlah pasukan awal sesuai dengan tipe bangunan
     armyCount(&res) = Building_getStartingArmy(c);
+    
+    // Set level awal bangunan menjadi lv. 1
     level(&res) = 1;
+
+    // Set status kepemilikan bangunan (player 1, player 2, bebas milik)
     owner(&res) = owner;
+
+    // Set tipe bangunan pada tipen bentukan bangunan
     type(&res) = c;
+
+    // Set status riwayat penyerangan
     hasAttacked(&res) = false;
+
     return res;
 }
 
 void Building_printList(Game* p, List list, char* title) {
+    /* KAMUS LOKAL */
     int i = 0;
+
+    /* ALGORITMA */
     printf("%s\n", title);
+
+    // Iterasi print lisrt sampai list kosong
     while (list != NULL) {
         Building b = ListOfBuilding_getAt(&buildingList(p), info(list));
         Building_printStatus(&b, ++i);
@@ -23,6 +44,9 @@ void Building_printList(Game* p, List list, char* title) {
 }
 
 void Building_printStatus(Building* p, int number) {
+    /* ALGORITMA */
+
+    // Cetak status bangunan
     printf("%d. %s (%d,%d) %d lv. %d\n", number, Building_getName(type(p)), x(position(p)), y(position(p)), armyCount(p), level(p));
 }
 
@@ -37,6 +61,7 @@ int Building_getMaxArmy(char type, int level) {
 }
 
 int Building_getArmyAddition(char type, int level) {
+    /* ALGORITMA */
     switch (type) {
         case 'C': return 5*(level+1);
         case 'T': return 10*(level-1) + (level == 1 ? 5 : 0);
@@ -47,6 +72,7 @@ int Building_getArmyAddition(char type, int level) {
 }
 
 char* Building_getName(char type) {
+    /* ALGORITMA */
     switch (type) {
         case 'C': return "Castle";
         case 'T': return "Tower";
@@ -57,10 +83,12 @@ char* Building_getName(char type) {
 }
 
 boolean Building_isShielded(char type, int level) {
+    /* ALGORITMA */
     return type != 'C' && type != 'V' && (type == 'T' || level >= 3);
 }
 
 int Building_getStartingArmy(char type) {
+    /* ALGORITMA */
     switch (type) {
         case 'C': return 40;
         case 'T': return 30;
@@ -71,5 +99,6 @@ int Building_getStartingArmy(char type) {
 }
 
 Building Building_getBuilding(Game* p, int id) {
+    /* ALGORITMA */
     return ListOfBuilding_getAt(&buildingList(p), id);
 }

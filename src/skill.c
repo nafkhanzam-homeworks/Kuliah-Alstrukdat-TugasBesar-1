@@ -1,6 +1,7 @@
 #include "skill.h"
 
 int Skill_getType(char* v) {
+    /* ALGORITMA */
     if (compareString(v, "IU")) {
         return 1;
     } else if (compareString(v, "S")) {
@@ -20,6 +21,7 @@ int Skill_getType(char* v) {
 }
 
 char* Skill_getName(int v) {
+    /* ALGORITMA */
     switch (v) {
         case 1: return "Instant Upgrade";
         case 2: return "Shield";
@@ -33,6 +35,7 @@ char* Skill_getName(int v) {
 }
 
 char* Skill_getAcronym(int v) {
+    /* ALGORITMA */
     switch (v) {
         case 1: return "IU";
         case 2: return "S";
@@ -47,52 +50,87 @@ char* Skill_getAcronym(int v) {
 
 
 void Skill_instantUpgrade(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    List list = buildingList(&pl);
-    while (list != NULL) {
-        Building b = Building_getBuilding(p, info(list));
+    /* KAMUS LOKAL */
+    Player pl;
+    List list;
+    Building b;
+
+    /* ALGORITMA */
+    pl = Player_getCurrentPlayer(p); // Mendapat player yang sedang mendapat urutan main
+    list = buildingList(&pl); 
+    while (list != NULL) { // Iterasi pada setiap bangunan pada list, menambahkan level
+        b = Building_getBuilding(p, info(list));
         ++level(&b);
         list = next(list);
     }
 }
 
 void Skill_shield(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    shieldTurn(&pl) = 2;
+    /* KAMUS LOKAL */
+    Player pl;
+
+    /* ALGORITMA */
+    pl = Player_getCurrentPlayer(p);
+    shieldTurn(&pl) = 2; //Skill disiapkan untuk 2 kali putaran
 }
 
 void Skill_extraTurn(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    extraTurn(&pl) = true;
-    Player en = Player_getEnemyPlayer(p);
-    Player_addSkill(&en, 5);
+    /* KAMUS LOKAL */
+    Player pl,en;
+
+    /* ALGORITMA */
+    pl = Player_getCurrentPlayer(p);
+    extraTurn(&pl) = true; // Set status skill ET pada player yang sedang mendapat putaran
+    
+    en = Player_getEnemyPlayer(p);
+    Player_addSkill(&en, 5); // player lawan mendapat Critical Hit ketika player yang bermain mengaktifkan ET
 }
 
 void Skill_attackUp(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    attackUp(&pl) = true;
+    /* KAMUS LOKAL */
+    Player pl;
+
+    /* ALGORITMA */
+    pl = Player_getCurrentPlayer(p);
+    attackUp(&pl) = true; // Mengaktifkan skill AttackUp pada player yang sedang bermain
 }
 
 void Skill_criticalHit(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    criticalHit(&pl) = true;
+    /* KAMUS LOKAL */
+    Player pl;
+
+    /* ALGORITMA */
+    pl = Player_getCurrentPlayer(p);
+    criticalHit(&pl) = true; // Mengaktifkan skill CriticalHit pada player yang sedang bermain
 }
 
 void Skill_instantReinforcement(Game* p) {
-    Player pl = Player_getCurrentPlayer(p);
-    List list = buildingList(&pl);
-    while (list != NULL) {
-        Building b = Building_getBuilding(p, info(list));
+    /* KAMUS LOKAL */
+    Player pl;
+    List list;
+    Building b;
+
+    /* ALGORITMA */
+    pl = Player_getCurrentPlayer(p);
+    list = buildingList(&pl);
+    while (list != NULL) { // Menambahkan 5 pasukan pada tiap bangunan yang dimiliki
+        b = Building_getBuilding(p, info(list));
         armyCount(&b) += 5;
         list = next(list);
     }
 }
 
 void Skill_barrage(Game* p) {
-    Player en = Player_getEnemyPlayer(p);
-    List list = buildingList(&en);
-    while (list != NULL) {
-        Building b = Building_getBuilding(p, info(list));
+    /* KAMUS LOKAL */
+    Player en;
+    List list;
+    Building b;
+
+    /* ALGORITMA */
+    en = Player_getEnemyPlayer(p);
+    list = buildingList(&en);
+    while (list != NULL) { // Iterasi pengurangan pasukan sebanyak 10 pada tiap bangunan yang dimiliki
+        b = Building_getBuilding(p, info(list));
         armyCount(&b) = max(0, armyCount(&b) - 10);
         if (!armyCount(&b)) {
             owner(&b) = 0;
@@ -102,6 +140,7 @@ void Skill_barrage(Game* p) {
 }
 
 void Skill_do(Game* p, int v) {
+    /* ALGORITMA */
     switch (v) {
         case 1: Skill_instantUpgrade(p);
         case 2: Skill_shield(p);
@@ -111,5 +150,7 @@ void Skill_do(Game* p, int v) {
         case 6: Skill_instantReinforcement(p);
         case 7: Skill_barrage(p);
     }
+    // Setelah pemakaian skill, Batas Undo menjadi kondisi status setelah pemakaian skill
+    // Stack dikosongkan
     StackOfAct_clear(actStack(p));
 }
