@@ -380,7 +380,13 @@ boolean Act_do(Game* p, char* pcmd) {
         char* fileName = Game_readCommand(p, "Input filename (without space): ");
         success = Act_save(p, fileName);
     } else if (compareString(cmd, "move")) {
-        List list = buildingList(pl);
+        list = Game_getMovableBuildings(p);
+
+        // Kondisi semua bangunan yang dimiliki player telah digunakan untuk move
+        if (List_isEmpty(&list)) {
+            printf("All of your buildings have been used to move this turn!\n");
+            return false;
+        }
 
         Building_printList(p, list, "Building List:");
         int fromId = Game_readCommandInt(p, "Choose building* number to move from: ", 1, List_getLength(&list));

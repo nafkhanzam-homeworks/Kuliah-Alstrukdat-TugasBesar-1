@@ -9,6 +9,7 @@
 #define level(P) (P)->level
 #define owner(P) (P)->owner
 #define hasAttacked(P) (P)->hasAttacked
+#define hasMoved(P) (P)->hasMoved
 #define actStack(P) (P)->actStack
 #define map(P) (P)->map
 #define buildingList(P) (P)->buildingList

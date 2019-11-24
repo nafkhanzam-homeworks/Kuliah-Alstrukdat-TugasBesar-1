@@ -24,6 +24,7 @@ Building new_Building(char c, int x, int y, int owner) {
 
     // Set status riwayat penyerangan
     hasAttacked(&res) = false;
+    hasMoved(&res) = false;
 
     return res;
 }

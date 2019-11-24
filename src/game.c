@@ -275,6 +275,7 @@ void Game_endTurn(Game* p) {
     for (int i = 1; i < N(p); ++i) {
         Building* b = Building_getBuilding(p, i);
         hasAttacked(b) = false;
+        hasMoved(b) = false;
         if (level(b) != 4 && owner(b) == turn(p)) {
             allLevel4 = false;
         }
@@ -337,6 +338,23 @@ List Game_getAttackableBuildings(Game* p) {
     for (int i = 1; i <= N(p); ++i) {
         b = Building_getBuilding(p, i);
         if (owner(b) == turn(p) && !hasAttacked(b)) {
+            List_addLast(&res, i);
+        }
+    }
+    return res;
+}
+
+List Game_getMovableBuildings(Game* p) {
+    /* KAMUS LOKAL */
+    List res;
+    Building* b;
+
+    /* ALGORITMA */
+    res = NULL;
+    // Iterasi pencarian bangunan dengan status dapat menyerang (bekum menyerang dan dimiliki pemain yang sedang mendapat putaran)
+    for (int i = 1; i <= N(p); ++i) {
+        b = Building_getBuilding(p, i);
+        if (owner(b) == turn(p) && !hasMoved(b)) {
             List_addLast(&res, i);
         }
     }
