@@ -8,5 +8,7 @@ typedef struct _Point {
 } Point;
 
 Point new_Point(int x, int y);
+/*I.S poin tidak terdefinisi
+F.s poin terdefinisi dengan x dan y elemennya*/
 
 #endif // __point_h__
