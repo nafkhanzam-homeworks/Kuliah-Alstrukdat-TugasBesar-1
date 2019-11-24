@@ -6,10 +6,10 @@
 void MesinKataTest_do() {
     // read file..
     MesinKata fileReader = new_FileMesinKata("src/test/mesinkata_test.h");
-    asserts("Reading first word of this file:", "if", MesinKata_readString(&fileReader));
-    asserts("Reading second word of this file:", "defined", MesinKata_readString(&fileReader));
-    asserts("Reading third word of this file:", "__reader_test_h__", MesinKata_readString(&fileReader));
-    asserts("Reading forth word of this file:", "define", MesinKata_readString(&fileReader));
+    asserts("Reading first readable word of this file:", "if", MesinKata_readString(&fileReader));
+    asserts("Reading second readable word of this file:", "defined", MesinKata_readString(&fileReader));
+    asserts("Reading third readable word of this file:", "__reader_test_h__", MesinKata_readString(&fileReader));
+    asserts("Reading forth readable word of this file:", "define", MesinKata_readString(&fileReader));
 
     // read console..
     MesinKata reader = new_MesinKata();

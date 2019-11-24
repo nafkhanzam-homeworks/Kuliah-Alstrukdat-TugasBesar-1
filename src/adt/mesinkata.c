@@ -54,9 +54,6 @@ char* MesinKata_readString(MesinKata* p) {
         res[i++] = readChar(p);
         MesinKata_adv(p);
     }
-    while (readChar(p) != ' ' && readChar(p) != '\n') {
-        MesinKata_adv(p);
-    }
     res[i] = 0; // Set akhir dari pembacaan menjadi NULL
     return res;
 }

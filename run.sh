@@ -1,0 +1,1 @@
+gcc src/*.c src/adt/*.c src/utils/*.c -o main && main && rm main
