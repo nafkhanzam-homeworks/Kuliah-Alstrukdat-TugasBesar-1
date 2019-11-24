@@ -9,6 +9,7 @@ typedef struct _Array {
 } Array;
 
 Array new_Array(int length);
+// I.S array belum terdefinisi, F.S array dengan panjang length
 
 typedef struct _ArrayOfBuilding {
     int length;
@@ -16,6 +17,7 @@ typedef struct _ArrayOfBuilding {
 } ArrayOfBuilding;
 
 ArrayOfBuilding new_ArrayOfBuilding(int length);
+// I.S array bangunan belum terdefinisi, F.S array bangunan dengan panjang length dan elemen menyimpan bangunan
 
 typedef struct _ArrayOfPlayer {
     int length;
@@ -23,6 +25,8 @@ typedef struct _ArrayOfPlayer {
 } ArrayOfPlayer;
 
 ArrayOfPlayer new_ArrayOfPlayer(int length);
-/**/
+// I.S array player belum terdefinisi, F.S array player dengan panjang length dan elemen menyimpan player
+
 
 #endif // __array_h__
+
