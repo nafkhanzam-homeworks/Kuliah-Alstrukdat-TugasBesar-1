@@ -78,16 +78,16 @@ void Act_changeTheOwnership(Game* p, Act* act, int buildingId) {
     // Penambahan skill sesuai kondisi penambahan bangunan
 
     if (fromBLengthBefore == 3) { // 3 -> 2
-        Player_addSkill(from, act, 2);
+        Player_addSkill(from, act, 2, owner(b));
     }
     if (type(b) == 'F') {
-        Player_addSkill(from, act, 3);
+        Player_addSkill(from, act, 3, owner(b));
     }
     if (toBLengthBefore == 2) { // 2 -> 3
-        Player_addSkill(to, act, 4);
+        Player_addSkill(to, act, 4, enemyIndex(owner(b)));
     }
     if (toBLengthBefore == 9) {
-        Player_addSkill(from, act, 7);
+        Player_addSkill(from, act, 7, owner(b));
     }
 }
 
@@ -102,7 +102,7 @@ void Act_getTheOwnership(Game* p, Act* act, int buildingId, int toOwner) {
     Act_addOps(act, new_OpsList(&buildingList(to), buildingId, true)); List_addLast(&buildingList(to), buildingId); // tambahkan bangunan pada list owner baru
 
     if (toBLengthBefore == 9) {
-        Player_addSkill(en, act, 7);
+        Player_addSkill(en, act, 7, toOwner);
     }
 }
 

@@ -10,7 +10,15 @@
 - Moch. Nafkhan Alzamzami   `13518132`
 
 ## Cara Run Game:
+Linux (bash):
 > ./run.sh
 
-## Cara menjalankan driver (unit testing):
+Windows (command prompt):
+> run
+
+## Cara menjalankan driver (ADT unit testing):
+Linux (bash):
 > ./test.sh
+
+Windows (command prompt):
+> test

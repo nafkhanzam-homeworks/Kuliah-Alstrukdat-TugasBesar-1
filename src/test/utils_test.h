@@ -4,6 +4,7 @@
 #include "test.h"
 
 void UtilsTest_do() {
+    assert("compareString abcd abcd is true", compareString("abcd", "abcd"));
     assert("compareString abc abcd is false", !compareString("abc", "abcd"));
     assert("compareString abcd abc is false", !compareString("abcd", "abc"));
     assert("compareString abcd abcf is false", !compareString("abcd", "abcf"));
