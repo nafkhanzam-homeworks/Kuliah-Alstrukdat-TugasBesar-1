@@ -101,15 +101,36 @@ typedef struct _ListOfAct {
     ListOfAct next;
 } ElementOfListOfAct;
 
+
+// listofact adalah list dengan elemen aksi (di gunakan untuk implementasi aksi)
 ListOfAct new_ListOfAct(Act v);
+/*I.S listofact tidak terdefinisi
+F.s  membuat listofact baru dengan elemen aksi v*/
 boolean ListOfAct_isEmpty(ListOfAct* p);
+/*I.S listofact terdefinisi
+F.s  return boolean apakah listofact kosong*/
 ListOfAct ListOfAct_getLast(ListOfAct* p);
+/*I.S listofact terdefinisi
+F.s  mendapatkan/return elemen terakhir listofact*/
 void ListOfAct_addFirst(ListOfAct* p, Act v);
+/*I.S listofact terdefinisi dan aksi v terdefinisi
+F.s  listofact baru dengan aksi v sebagai elemen pertama*/
 void ListOfAct_addLast(ListOfAct* p, Act v);
+/*I.S listofact terdefinisi dan aksi v terdefinisi
+F.s  listofact baru dengan aksi v sebagai elemen terakhir*/
 int ListOfAct_getLength(ListOfAct* p);
+/*I.S listofact terdefinisi 
+F.s  mendapatkan atau return nilai dari panjang(jumlah elemen) listofact*/
 ListOfAct ListOfAct_getSecondLast(ListOfAct* p);
+/*I.S listofact terdefinisi
+F.s  mendapatkan elemen listofact sebelum terakhir (tepat)*/
 Act ListOfAct_removeFirst(ListOfAct* p);
+/*I.S listofact terdefinisi
+F.s  elemen aksi awal yang di hapus dari listofact*/
 Act ListOfAct_removeLast(ListOfAct* p);
+/*I.S listoafact terdefinisi
+F.s  elemen aksi akhir yang dihapus dari listofact*/
+
 
 typedef struct _ListOfBuilding {
     Building* info;
@@ -117,14 +138,34 @@ typedef struct _ListOfBuilding {
 } ElementOfListOfBuilding;
 
 ListOfBuilding new_ListOfBuilding(Building v);
+/*I.S listofbuilding tidak terdefinisi
+F.s listofbuilding terdefinisi */
 boolean ListOfBuilding_isEmpty(ListOfBuilding* p);
+/*I.S listofbuilding terdefinisi
+F.s  return boolean apakah listofbuiling berelemen kosong*/
 ListOfBuilding ListOfBuilding_getLast(ListOfBuilding* p);
+/*I.S listofbuilding terdefinisi
+F.s  mendapakatkan elemen listofbuilding node terakhir*/
 void ListOfBuilding_addFirst(ListOfBuilding* p, Building v);
+/*I.S listofbuilding dan building terdefinisi
+F.s  menambahkan building sebagai elemen pertama dari listofbuiding*/
 void ListOfBuilding_addLast(ListOfBuilding* p, Building v);
+/*I.S listofbuilding dan building terdefinisi
+F.s  menambahkan building v sebagai elemen terakhir dari listofbuilding*/
 int ListOfBuilding_getLength(ListOfBuilding* p);
+/*I.S listofbuilding terdefinisi
+F.s  return integer dari panjang(jumlah elemen) dari listofbuilding*/
 ListOfBuilding ListOfBuilding_getSecondLast(ListOfBuilding* p);
+/*I.S listofbuilding terdefinisi
+F.s  mendapatkan listofbuilding dengan node sebelum terakhir*/
 Building ListOfBuilding_removeFirst(ListOfBuilding* p);
+/*I.S listofbuilding terdefinisi
+F.s  mendapatkan/return building node pertama dan listofbuilding baru dengan node pertama di hilangkan*/
 Building ListOfBuilding_removeLast(ListOfBuilding* p);
+/*I.S listofbuilding terdefinisi
+F.s  listofbuilding baru dengan elemen atau node last di hilangkan dan mengembalikan/return building yang terakhir*/
 Building* ListOfBuilding_getAt(ListOfBuilding* p, int i);
+/*I.S listofbuilding terdefinisi dan integer i terdefinisi
+F.s  mendapatkan building pada listofbuilding indeks ke i*/
 
 #endif // __list_h__
