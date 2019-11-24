@@ -51,6 +51,10 @@ void toLowerCase(char* p, char* res) {
     }
 }
 
+int enemyIndex(int a) {
+    return (a%2) + 1;
+}
+
 int max(int a, int b) {
     /* ALGORITMA */
     return a > b ? a : b;

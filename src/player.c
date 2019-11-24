@@ -28,7 +28,7 @@ Player* Player_getCurrentPlayer(Game* p) {
 
 Player* Player_getEnemyPlayer(Game* p) {
     /* ALGORITMA */
-    return &playersi(p, turn(p)%2 + 1);
+    return &playersi(p, enemyIndex(turn(p)));
 }
 
 void Player_addSkill(Player* p, int type) {

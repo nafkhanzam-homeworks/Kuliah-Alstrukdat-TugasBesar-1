@@ -7,9 +7,9 @@
 #include "utils_test.h"
 
 void doTheTests() {
-    printf("Utils Tests:\n");
+    printf(YELLOW);printf("Utils Tests:\n");printf(NORMAL);
     UtilsTest_do();
-    printf("Array Tests:\n");
+    printf(YELLOW);printf("Array Tests:\n");printf(NORMAL);
     ArrayTest_do();
 }
 

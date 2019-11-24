@@ -214,7 +214,7 @@ void Game_printTurnInfo(Game* p) {
     printf("Player %d\n", turn(p));
     pl = Player_getCurrentPlayer(p);
     bIndexList = buildingList(pl);
-    Building_printList(p, bIndexList, "Building* List:"); // Print bangunan yang dimiliki player
+    Building_printList(p, bIndexList, "Building List:"); // Print bangunan yang dimiliki player
     printf("Skill Available: %s\n", Queue_isEmpty(skillQueue(pl)) ? "-" : Skill_getAcronym(Queue_peek(skillQueue(pl))));
 }
 

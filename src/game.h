@@ -32,7 +32,7 @@ List Game_getAttackableBuildings(Game* p);
 
 // save format
 // <config.txt>
-// //each building
+// [each building]
 // <currentTurn>
 // <owner> <level> <armyCount>
 

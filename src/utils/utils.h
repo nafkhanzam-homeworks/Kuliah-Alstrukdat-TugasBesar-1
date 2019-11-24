@@ -9,6 +9,7 @@ boolean compareString(char* a, char* b);
 void append(char* a, char* b);
 void copyString(char* a, char* b);
 void toLowerCase(char* p, char* res);
+int enemyIndex(int a);
 int max(int a, int b);
 int min(int a, int b);
 

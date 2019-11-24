@@ -142,13 +142,13 @@ void Skill_barrage(Game* p) {
 void Skill_do(Game* p, int v) {
     /* ALGORITMA */
     switch (v) {
-        case 1: Skill_instantUpgrade(p);
-        case 2: Skill_shield(p);
-        case 3: Skill_extraTurn(p);
-        case 4: Skill_attackUp(p);
-        case 5: Skill_criticalHit(p);
-        case 6: Skill_instantReinforcement(p);
-        case 7: Skill_barrage(p);
+        case 1: Skill_instantUpgrade(p); break;
+        case 2: Skill_shield(p); break;
+        case 3: Skill_extraTurn(p); break;
+        case 4: Skill_attackUp(p); break;
+        case 5: Skill_criticalHit(p); break;
+        case 6: Skill_instantReinforcement(p); break;
+        case 7: Skill_barrage(p); break;
     }
     // Setelah pemakaian skill, Batas Undo menjadi kondisi status setelah pemakaian skill
     // Stack dikosongkan

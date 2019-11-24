@@ -65,12 +65,12 @@ void Act_changeTheOwnership(Game* p, Act* act, int buildingId) {
     /* ALGORITMA */
     b = Building_getBuilding(p, buildingId);
     from = &playersi(p, owner(b));
-    to = &playersi(p, owner(b)%2 + 1);
+    to = &playersi(p, enemyIndex(owner(b)));
 
     fromBLengthBefore = List_getLength(&buildingList(from));
     toBLengthBefore = List_getLength(&buildingList(to));
 
-    Act_addOps(act, new_OpsDefault(&owner(b))); owner(b) = owner(b)%2 + 1; // Ganti owner bangunan
+    Act_addOps(act, new_OpsDefault(&owner(b))); owner(b) = enemyIndex(owner(b)); // Ganti owner bangunan
     Act_addOps(act, new_OpsList(&buildingList(from), buildingId, false)); List_remove(&buildingList(from), buildingId); // hapus bangunan di list bangunan owner
     Act_addOps(act, new_OpsList(&buildingList(to), buildingId, true)); List_addLast(&buildingList(to), buildingId); // tambahkan bangunan pada list owner baru
 
@@ -92,7 +92,7 @@ void Act_changeTheOwnership(Game* p, Act* act, int buildingId) {
 
 void Act_getTheOwnership(Game* p, Act* act, int buildingId, int toOwner) {
     Building* b = Building_getBuilding(p, buildingId);
-    Player* to = &playersi(p, toOwner), * en = &playersi(p, toOwner%2 + 1);
+    Player* to = &playersi(p, toOwner), * en = &playersi(p, enemyIndex(toOwner));
 
     int toBLengthBefore = List_getLength(&buildingList(to));
 
@@ -145,7 +145,7 @@ boolean Act_attack(Game* p, Act* act, int attackerBuildingId, int defenderBuildi
         } else {
             Act_getTheOwnership(p, act, defenderBuildingId, turn(p));
         }
-        printf("The building* has just became yours!\n");
+        printf("The building has just became yours!\n");
     }
     return true;
 }
