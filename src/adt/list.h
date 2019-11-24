@@ -87,14 +87,32 @@ typedef struct _ListOfOps {
 } ElementOfListOfOps;
 
 ListOfOps new_ListOfOps(Ops v);
+/*I.S ListofOps tidak terdefinisi
+F.s  membuat ListofOps dengan pengalokasian memori*/
 boolean ListOfOps_isEmpty(ListOfOps* p);
+/*I.S ListofOps terdefinisi
+F.s  return boolean apakah ListofOps kosong*/
 ListOfOps ListOfOps_getLast(ListOfOps* p);
+/*I.S ListofOps terdefinisi
+F.s  return elemen ListofOps terakhir*/
 void ListOfOps_addFirst(ListOfOps* p, Ops v);
+/*I.S ListofOps terdefinisi
+F.s  ListofOps baru dengan Ops v sebagai elemen pertama*/
 void ListOfOps_addLast(ListOfOps* p, Ops v);
+/*I.S ListofOps terdefinisi
+F.s  ListofOps baru dengan Ops v sebagai elemen terakhir*/
 int ListOfOps_getLength(ListOfOps* p);
+/*I.S ListofOps terdefinisi
+F.s  return integer berupa panjang dari ListofOps*/
 ListOfOps ListOfOps_getSecondLast(ListOfOps* p);
+/*I.S ListofOps terdefinisi
+F.s  return satu sebelum elemen terakhir*/
 Ops ListOfOps_removeFirst(ListOfOps* p);
+/*I.S ListofOps terdefinisi
+F.s  ListofOps baru dengan elemen kedua ListofOps lama sebagai awalnya*/
 Ops ListOfOps_removeLast(ListOfOps* p);
+/*I.S ListofOps terdefinisi
+F.s  ListofOps baru dengan elemen satu sebelum terakhir ListofOps lama sebagai elemen terakhir*/
 
 typedef struct _ListOfAct {
     Act* info;
