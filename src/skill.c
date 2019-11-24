@@ -83,7 +83,7 @@ void Skill_extraTurn(Game* p) {
     extraTurn(pl) = true; // Set status skill ET pada player yang sedang mendapat putaran
 
     en = Player_getEnemyPlayer(p);
-    Player_addSkill(en, 5); // player lawan mendapat Critical Hit ketika player yang bermain mengaktifkan ET
+    Player_addSkill(en, NULL, 5); // player lawan mendapat Critical Hit ketika player yang bermain mengaktifkan ET
 }
 
 void Skill_attackUp(Game* p) {

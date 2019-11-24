@@ -11,7 +11,7 @@ Player new_Player() {
     skillQueue(&res) = (Queue*) malloc(sizeof(Queue)); // Menyiapkan & alokasi queue untuk skill
     *skillQueue(&res) = new_Queue();
     
-    Player_addSkill(&res, 1); // Menambahkan skill awal IU
+    Player_addSkill(&res, NULL, 1); // Menambahkan skill awal IU
     
     /* Set status skill yang sedang dipakai */
     criticalHit(&res) = false;
@@ -31,9 +31,12 @@ Player* Player_getEnemyPlayer(Game* p) {
     return &playersi(p, enemyIndex(turn(p)));
 }
 
-void Player_addSkill(Player* p, int type) {
+void Player_addSkill(Player* p, Act* act, int type) {
     /* ALGORITMA */
     if (Queue_getLength(skillQueue(p)) < MAX_QUEUE) {
+        if (act != NULL) {
+            Act_addOps(act, new_OpsQueue(skillQueue(p), type, true));
+        }
         Queue_add(skillQueue(p), type);
     }
 }

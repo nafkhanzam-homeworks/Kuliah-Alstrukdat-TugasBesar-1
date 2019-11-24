@@ -280,7 +280,7 @@ void Game_endTurn(Game* p) {
         }
     }
     if (allLevel4) { // Jika semua bangunan telah level 4, tambah skill
-        Player_addSkill(pl, 6);
+        Player_addSkill(pl, NULL, 6);
     }
     if (extraTurn(pl)) {
         printf("Extra turn has been used! You have one more turn!\n");
